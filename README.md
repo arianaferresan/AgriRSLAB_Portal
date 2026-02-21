@@ -292,7 +292,7 @@ A equipe **404 Not Found** é constituída de alunos do primeiro semestre do cur
 | Project Owner | Eloah Sousa da Silva          | [GitHub](https://github.com/eloahsousaa) / [LinkedIn](https://www.linkedin.com/in/eloah-sousa-650038349/) |
 | Scrum Master  | Pedro Gonçalves Sampaio       | [GitHub](https://github.com/PedroSmp) / [LinkedIn](https://www.linkedin.com/in/pedro-sampaio-463a77375) |
 | Dev Team      | Ariana Ferreira dos Santos    | [GitHub](https://github.com/arianaferresan) / [LinkedIn](https://br.linkedin.com/in/arianaferreira) |
-| Dev Team      | Felipe Faria Machado          | [GitHub](https://github.com/Felipe1781) / [LinkedIn](https://www.linkedin.com/in/felipefariamachado) |
+| Dev Team      | Felipe Faria Machado          | [GitHub](https://github.com/felipefmac) / [LinkedIn](https://www.linkedin.com/in/felipefariamachado) |
 | Dev Team      | João Augusto Leal Neto        | [GitHub](https://github.com/lealdev7) / [LinkedIn](https://www.linkedin.com/in/jo%C3%A3o-leal-558071385/) |
 | Dev Team      | João Otávio Nunes de Mesquita | [GitHub](https://github.com/jotavionm) / [LinkedIn](https://www.linkedin.com/in/jo%C3%A3o-ot%C3%A1vio-nunes-mesquita/) |
 | Dev Team      | Luiza Gonçalves Manchini      | [GitHub](https://github.com/luiza-manchini) / [LinkedIn](https://www.linkedin.com/in/luiza-manchini-b51a7b336/) |
