@@ -60,33 +60,72 @@ function criarProjetoCard(projeto) {
     card.className = `artigo-card ${!projeto.exibir ? 'oculto' : ''}`;
     card.dataset.id = projeto.id;
 
-    const img = getFullUrl(projeto.url_imagem);
+    const imgUrl = getFullUrl(projeto.url_imagem);
 
-    card.innerHTML = `
-        <img src="${img}" alt="Capa do projeto" onerror="this.src='https://via.placeholder.com/300x200?text=Sem+Imagem'">
+    const img = document.createElement('img');
+    img.src = imgUrl;
+    img.alt = "Capa do projeto";
+    img.onerror = () => { img.src = 'https://via.placeholder.com/300x200?text=Sem+Imagem'; };
+    card.appendChild(img);
 
-        <div class="card-content">
-            <h3>${projeto.titulo}</h3>
+    const divContent = document.createElement('div');
+    divContent.className = 'card-content';
 
-            ${projeto.destaque ? '<p class="status-destaque">★ Projeto em Destaque</p>' : ''}
+    const h3 = document.createElement('h3');
+    h3.textContent = projeto.titulo;
+    divContent.appendChild(h3);
 
-            <p><strong>Status:</strong> ${getStatusVisivel(projeto.exibir)}</p>
-            <p><strong>Autores:</strong> ${projeto.autores || 'Não informados'}</p>
-            <p><strong>Descrição:</strong> ${resumo(projeto.conteudo)}</p>
+    if (projeto.destaque) {
+        const pDestaque = document.createElement('p');
+        pDestaque.className = 'status-destaque';
+        pDestaque.textContent = '★ Projeto em Destaque';
+        divContent.appendChild(pDestaque);
+    }
 
-            <div class="card-actions">
-                <button class="btn-secondary btn-abrir-atualizacao" data-id="${projeto.id}">
-                    Editar
-                </button>
+    const pStatus = document.createElement('p');
+    const strongStatus = document.createElement('strong');
+    strongStatus.textContent = 'Status: ';
+    pStatus.appendChild(strongStatus);
+    const spanStatus = document.createElement('span');
+    spanStatus.className = projeto.exibir ? 'status-visible' : 'status-oculto';
+    spanStatus.textContent = projeto.exibir ? '● Visível' : '● Oculto';
+    pStatus.appendChild(spanStatus);
+    divContent.appendChild(pStatus);
 
-                <button class="btn-danger btn-abrir-delecao"
-                        data-id="${projeto.id}"
-                        data-titulo="${projeto.titulo}">
-                    Excluir
-                </button>
-            </div>
-        </div>
-    `;
+    const pAutores = document.createElement('p');
+    const strongAutores = document.createElement('strong');
+    strongAutores.textContent = 'Autores: ';
+    pAutores.appendChild(strongAutores);
+    pAutores.appendChild(document.createTextNode(projeto.autores || 'Não informados'));
+    divContent.appendChild(pAutores);
+
+    const pDesc = document.createElement('p');
+    const strongDesc = document.createElement('strong');
+    strongDesc.textContent = 'Descrição: ';
+    pDesc.appendChild(strongDesc);
+    pDesc.appendChild(document.createTextNode(resumo(projeto.conteudo)));
+    divContent.appendChild(pDesc);
+
+    const divActions = document.createElement('div');
+    divActions.className = 'card-actions';
+
+    const btnEditar = document.createElement('button');
+    btnEditar.className = 'btn-secondary btn-abrir-atualizacao';
+    btnEditar.dataset.id = projeto.id;
+    btnEditar.textContent = 'Editar';
+    btnEditar.addEventListener('click', abrirModalAtualizacao);
+    divActions.appendChild(btnEditar);
+
+    const btnDeletar = document.createElement('button');
+    btnDeletar.className = 'btn-danger btn-abrir-delecao';
+    btnDeletar.dataset.id = projeto.id;
+    btnDeletar.dataset.titulo = projeto.titulo;
+    btnDeletar.textContent = 'Excluir';
+    btnDeletar.addEventListener('click', abrirModalDelecao);
+    divActions.appendChild(btnDeletar);
+
+    divContent.appendChild(divActions);
+    card.appendChild(divContent);
 
     return card;
 }

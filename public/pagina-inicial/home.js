@@ -192,7 +192,10 @@ function preencherNoticiasSecundarias(lista, container, lang, traducoes) {
     container.innerHTML = '';
 
     if (!lista || lista.length === 0) {
-        container.innerHTML = `<p class="estado-informativo">${traducoes.semOutras}</p>`;
+        const pVazio = document.createElement('p');
+        pVazio.className = 'estado-informativo';
+        pVazio.textContent = traducoes.semOutras;
+        container.appendChild(pVazio);
         return;
     }
 
@@ -209,21 +212,44 @@ function preencherNoticiasSecundarias(lista, container, lang, traducoes) {
             link.target = '_blank';
         }
 
-        link.innerHTML = `
-            <div class="card-noticia">
-                <img src="${(noticia && noticia.url_imagem) || ''}" alt="${(noticia && noticia.titulo) || 'Notícia'}">
-                <div class="texto">
-                    <h3>${(noticia && noticia.titulo) || traducoes.semTitulo}</h3>
-                    <p>${resumirTexto((noticia && (noticia.subtitulo || noticia.texto)) || '', 140)}</p>
-                    <div class="noticia-principal-footer">
-                        <span class="dateEvent"><time>${formatarData(noticia && noticia.data_criacao, lang)}</time></span>
-                        <span class="continuar-lendo">${traducoes.leiaMais}</span>
-                    </div>
-                </div>
-            </div>
-        `;
+        const divCard = document.createElement('div');
+        divCard.className = 'card-noticia';
 
-        const img = link.querySelector('img');
+        const img = document.createElement('img');
+        img.src = (noticia && noticia.url_imagem) || '';
+        img.alt = (noticia && noticia.titulo) || 'Notícia';
+        divCard.appendChild(img);
+
+        const divTexto = document.createElement('div');
+        divTexto.className = 'texto';
+
+        const h3 = document.createElement('h3');
+        h3.textContent = (noticia && noticia.titulo) || traducoes.semTitulo;
+        divTexto.appendChild(h3);
+
+        const pResumo = document.createElement('p');
+        pResumo.textContent = resumirTexto((noticia && (noticia.subtitulo || noticia.texto)) || '', 140);
+        divTexto.appendChild(pResumo);
+
+        const divFooter = document.createElement('div');
+        divFooter.className = 'noticia-principal-footer';
+
+        const spanData = document.createElement('span');
+        spanData.className = 'dateEvent';
+        const time = document.createElement('time');
+        time.textContent = formatarData(noticia && noticia.data_criacao, lang);
+        spanData.appendChild(time);
+        divFooter.appendChild(spanData);
+
+        const spanLerMais = document.createElement('span');
+        spanLerMais.className = 'continuar-lendo';
+        spanLerMais.textContent = traducoes.leiaMais;
+        divFooter.appendChild(spanLerMais);
+
+        divTexto.appendChild(divFooter);
+        divCard.appendChild(divTexto);
+        link.appendChild(divCard);
+
         aplicarImagem(img, noticia && noticia.url_imagem);
 
         container.appendChild(link);

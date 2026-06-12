@@ -42,9 +42,6 @@ function criarArtigoCard(artigo) {
 
     const imagemUrl = getFullUrl(artigo.url_imagem);
 
-    // Texto para o status de visibilidade
-    const statusVisibilidade = artigo.exibir ? '<span class="status-visible">● Visível</span>' : '<span class="status-oculto">● Oculto</span>';
-
     // Formatação da data para exibição
     const dataFormatada = new Date(artigo.data_cadastro).toLocaleString('pt-BR', {
         day: '2-digit',
@@ -54,30 +51,81 @@ function criarArtigoCard(artigo) {
         minute: '2-digit'
     });
 
-    card.innerHTML = `
-        <img src="${imagemUrl}" alt="Capa do Artigo: ${artigo.titulo}" onerror="this.src='https://via.placeholder.com/300x200?text=Sem+Imagem';">
-        <div class="card-content">
-            <h3>${artigo.titulo}</h3>
-            <p><strong>Status:</strong> ${statusVisibilidade}</p>
-            <p><strong>Categoria:</strong> ${artigo.categoria_nome || 'N/A'}</p>
-            <p><strong>Cadastrado em:</strong> ${dataFormatada}</p>
-            
-<div class="card-actions">
+    const img = document.createElement('img');
+    img.src = imagemUrl;
+    img.alt = `Capa do Artigo: ${artigo.titulo}`;
+    img.onerror = function() { this.src = 'https://via.placeholder.com/300x200?text=Sem+Imagem'; };
 
-    <div class="line-top">
-        <a href="${getFullUrl(artigo.link_pdf)}" target="_blank" class="btn-primary">Baixar PDF</a>
-        <a href="${artigo.link_doi}" target="_blank" class="btn-secondary">Ver DOI</a>
-    </div>
+    const cardContent = document.createElement('div');
+    cardContent.className = 'card-content';
 
-    <div class="line-bottom">
-        <button class="btn-secondary btn-abrir-atualizacao" data-id="${artigo.id}">Editar</button>
-        <button class="btn-danger btn-abrir-delecao" data-id="${artigo.id}" data-titulo="${artigo.titulo}">Deletar</button>
-    </div>
+    const h3 = document.createElement('h3');
+    h3.textContent = artigo.titulo;
 
-</div>
+    const pStatus = document.createElement('p');
+    const strongStatus = document.createElement('strong');
+    strongStatus.textContent = 'Status: ';
+    pStatus.appendChild(strongStatus);
+    const statusSpan = document.createElement('span');
+    statusSpan.className = artigo.exibir ? 'status-visible' : 'status-oculto';
+    statusSpan.textContent = artigo.exibir ? '● Visível' : '● Oculto';
+    pStatus.appendChild(statusSpan);
 
-        </div>
-    `;
+    const pCategoria = document.createElement('p');
+    const strongCategoria = document.createElement('strong');
+    strongCategoria.textContent = 'Categoria: ';
+    pCategoria.appendChild(strongCategoria);
+    pCategoria.appendChild(document.createTextNode(artigo.categoria_nome || 'N/A'));
+
+    const pCadastrado = document.createElement('p');
+    const strongCadastrado = document.createElement('strong');
+    strongCadastrado.textContent = 'Cadastrado em: ';
+    pCadastrado.appendChild(strongCadastrado);
+    pCadastrado.appendChild(document.createTextNode(dataFormatada));
+
+    const cardActions = document.createElement('div');
+    cardActions.className = 'card-actions';
+
+    const lineTop = document.createElement('div');
+    lineTop.className = 'line-top';
+    const btnPdf = document.createElement('a');
+    btnPdf.href = getFullUrl(artigo.link_pdf);
+    btnPdf.target = '_blank';
+    btnPdf.className = 'btn-primary';
+    btnPdf.textContent = 'Baixar PDF';
+    const btnDoi = document.createElement('a');
+    btnDoi.href = artigo.link_doi;
+    btnDoi.target = '_blank';
+    btnDoi.className = 'btn-secondary';
+    btnDoi.textContent = 'Ver DOI';
+    lineTop.appendChild(btnPdf);
+    lineTop.appendChild(btnDoi);
+
+    const lineBottom = document.createElement('div');
+    lineBottom.className = 'line-bottom';
+    const btnEditar = document.createElement('button');
+    btnEditar.className = 'btn-secondary btn-abrir-atualizacao';
+    btnEditar.dataset.id = artigo.id;
+    btnEditar.textContent = 'Editar';
+    const btnDeletar = document.createElement('button');
+    btnDeletar.className = 'btn-danger btn-abrir-delecao';
+    btnDeletar.dataset.id = artigo.id;
+    btnDeletar.dataset.titulo = artigo.titulo;
+    btnDeletar.textContent = 'Deletar';
+    lineBottom.appendChild(btnEditar);
+    lineBottom.appendChild(btnDeletar);
+
+    cardActions.appendChild(lineTop);
+    cardActions.appendChild(lineBottom);
+
+    cardContent.appendChild(h3);
+    cardContent.appendChild(pStatus);
+    cardContent.appendChild(pCategoria);
+    cardContent.appendChild(pCadastrado);
+    cardContent.appendChild(cardActions);
+
+    card.appendChild(img);
+    card.appendChild(cardContent);
     return card;
 }
 

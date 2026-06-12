@@ -140,40 +140,105 @@ document.addEventListener("DOMContentLoaded", () => {
             const chaveMes = nomeMes;
 
             if (chaveMes !== ultimoMesRenderizado) {
-                const nomeMesCap = nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1);
-                container.insertAdjacentHTML('beforeend', 
-                    `<h2 class="titulo-mes-admin">${nomeMesCap}</h2>`
-                );
+                const h2Mes = document.createElement('h2');
+                h2Mes.className = 'titulo-mes-admin';
+                h2Mes.textContent = nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1);
+                container.appendChild(h2Mes);
                 ultimoMesRenderizado = chaveMes;
             }
             const textoResumido = truncarTexto(noticia.texto, 256);
-            // Renderiza o Card de Admin
-            container.insertAdjacentHTML('beforeend', `
-                <div class="admin-card-noticia" data-id="${noticia.id_noticias}">
-                    <div class="card-imagem">
-                        <img src="../${noticia.url_imagem}" alt="Capa" onerror="this.src='../../imagens/1.1Imagens Git/logo_404notfound.png'">
-                    </div>
-                    <div class="card-info">
-                        <h4>${noticia.titulo}</h4>
-                        <p>${noticia.subtitulo}</p>
-                        <p>${textoResumido}</p>
-                        <span><p><strong>Categoria:</strong> ${noticia.categoria}</p>
-                        <p><strong>Data:</strong> ${formatarDataExibicao(noticia.data_criacao)}</p>
-                        <p><strong>Destaque:</strong> ${noticia.destaque ? 'Sim' : 'Não'}</p></span>
-                    </div>
-                    <div class="card-actions">
-                        <div class="switch-container">
-                            <label class="switch-label">Exibir:</label>
-                            <label class="switch">
-                                <input type="checkbox" class="toggle-exibir" data-id="${noticia.id_noticias}" ${noticia.exibir ? 'checked' : ''}>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <button class="btn-secondary btn-update">Editar</button>
-                        <button class="btn-delete btn-deletar">Excluir</button>
-                    </div>
-                </div>
-            `);
+            
+            // Renderiza o Card de Admin de forma segura
+            const card = document.createElement('div');
+            card.className = 'admin-card-noticia';
+            card.dataset.id = noticia.id_noticias;
+
+            const divImg = document.createElement('div');
+            divImg.className = 'card-imagem';
+            const img = document.createElement('img');
+            img.src = `../${noticia.url_imagem}`;
+            img.alt = 'Capa';
+            img.onerror = () => { img.src = '../../imagens/1.1Imagens Git/logo_404notfound.png'; };
+            divImg.appendChild(img);
+            card.appendChild(divImg);
+
+            const divInfo = document.createElement('div');
+            divInfo.className = 'card-info';
+            
+            const h4 = document.createElement('h4');
+            h4.textContent = noticia.titulo;
+            divInfo.appendChild(h4);
+
+            const pSub = document.createElement('p');
+            pSub.textContent = noticia.subtitulo || '';
+            divInfo.appendChild(pSub);
+
+            const pTexto = document.createElement('p');
+            pTexto.textContent = textoResumido;
+            divInfo.appendChild(pTexto);
+
+            const spanExtra = document.createElement('span');
+            
+            const pCat = document.createElement('p');
+            const strongCat = document.createElement('strong');
+            strongCat.textContent = 'Categoria:';
+            pCat.appendChild(strongCat);
+            pCat.appendChild(document.createTextNode(` ${noticia.categoria || 'Geral'}`));
+            spanExtra.appendChild(pCat);
+
+            const pData = document.createElement('p');
+            const strongData = document.createElement('strong');
+            strongData.textContent = 'Data:';
+            pData.appendChild(strongData);
+            pData.appendChild(document.createTextNode(` ${formatarDataExibicao(noticia.data_criacao)}`));
+            spanExtra.appendChild(pData);
+
+            const pDest = document.createElement('p');
+            const strongDest = document.createElement('strong');
+            strongDest.textContent = 'Destaque:';
+            pDest.appendChild(strongDest);
+            pDest.appendChild(document.createTextNode(` ${noticia.destaque ? 'Sim' : 'Não'}`));
+            spanExtra.appendChild(pDest);
+
+            divInfo.appendChild(spanExtra);
+            card.appendChild(divInfo);
+
+            const divActions = document.createElement('div');
+            divActions.className = 'card-actions';
+
+            const divSwitch = document.createElement('div');
+            divSwitch.className = 'switch-container';
+            const lblExibir = document.createElement('label');
+            lblExibir.className = 'switch-label';
+            lblExibir.textContent = 'Exibir:';
+            divSwitch.appendChild(lblExibir);
+            
+            const lblSwitch = document.createElement('label');
+            lblSwitch.className = 'switch';
+            const inputSwitch = document.createElement('input');
+            inputSwitch.type = 'checkbox';
+            inputSwitch.className = 'toggle-exibir';
+            inputSwitch.dataset.id = noticia.id_noticias;
+            inputSwitch.checked = !!noticia.exibir;
+            lblSwitch.appendChild(inputSwitch);
+            const spanSlider = document.createElement('span');
+            spanSlider.className = 'slider';
+            lblSwitch.appendChild(spanSlider);
+            divSwitch.appendChild(lblSwitch);
+            divActions.appendChild(divSwitch);
+
+            const btnUpdate = document.createElement('button');
+            btnUpdate.className = 'btn-secondary btn-update';
+            btnUpdate.textContent = 'Editar';
+            divActions.appendChild(btnUpdate);
+
+            const btnDelete = document.createElement('button');
+            btnDelete.className = 'btn-delete btn-deletar';
+            btnDelete.textContent = 'Excluir';
+            divActions.appendChild(btnDelete);
+
+            card.appendChild(divActions);
+            container.appendChild(card);
         });
 
         itensVisiveis += proximoLote.length;

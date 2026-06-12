@@ -64,21 +64,30 @@ async function getDefesasNoticias(req, res) {
   const baseQuery = getTranslatedQuery(lang);
   try {
     const result = await pool.query(
-      `${baseQuery} WHERE n.exibir = true ORDER BY n.data_criacao DESC`
+      `${baseQuery}
+       WHERE n.exibir = true
+         AND LOWER(TRIM(n.categoria)) = 'defesa'
+       ORDER BY n.data_criacao DESC`
     );
     res.status(200).json(result.rows);
   } catch (error) {
+    console.error('Erro ao buscar defesas:', error);
     res.status(500).json({ error: 'Erro ao buscar notícias de defesa' });
   }
 };
 
-// GET apenas Eventos do Mês Atual
+// GET apenas Eventos do Mês Atual (Categoria: Curso)
 async function getEventosMesAtual(req, res) {
   const lang = req.query.lang || 'pt';
   const baseQuery = getTranslatedQuery(lang);
   try {
     const result = await pool.query(
-      `${baseQuery} WHERE n.exibir = true ORDER BY n.data_criacao DESC`
+      `${baseQuery}
+       WHERE n.exibir = true
+         AND LOWER(TRIM(n.categoria)) = 'curso'
+         AND n.data_criacao >= date_trunc('month', CURRENT_DATE)
+         AND n.data_criacao < date_trunc('month', CURRENT_DATE) + INTERVAL '1 month'
+       ORDER BY n.data_criacao DESC`
     );
     res.status(200).json(result.rows);
   } catch (error) {

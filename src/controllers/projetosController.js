@@ -89,7 +89,7 @@ async function getProjetosPublicados(req, res) {
     const langParam = req.query.lang || 'pt';
     const lang = langParam.split('-')[0];
 
-    if (lang === 'pt') {
+    if (lang !== 'en') {
         console.log("Servindo projetos em Português (sem tradução).");
         // Se for 'pt', retorna os dados originais sem tradução
         try {
@@ -107,7 +107,7 @@ async function getProjetosPublicados(req, res) {
         console.log(`Iniciando tradução para o idioma: ${lang}`);
         const dbResult = await pool.query(
             // Agora busca as colunas de tradução também
-            'SELECT *, titulo_en, conteudo_en FROM projetos WHERE exibir = true ORDER BY id DESC'
+            'SELECT * FROM projetos WHERE exibir = true ORDER BY id DESC'
         );
 
         // Chama diretamente a função de cache, que é mais eficiente
@@ -128,8 +128,8 @@ async function getProjetosPublicados(req, res) {
 async function getProjetosTraduzidosComCache(projetos, targetLang) {
     const projetosProcessados = await Promise.all(
         projetos.map(async (projeto) => {
-            const tituloTraduzidoCampo = `titulo_${targetLang}`;
-            const conteudoTraduzidoCampo = `conteudo_${targetLang}`;
+            const tituloTraduzidoCampo = 'titulo_en';
+            const conteudoTraduzidoCampo = 'conteudo_en';
 
             // Verifica se a tradução já existe no objeto do projeto
             if (projeto[tituloTraduzidoCampo] && projeto[conteudoTraduzidoCampo]) {
@@ -152,7 +152,7 @@ async function getProjetosTraduzidosComCache(projetos, targetLang) {
                 const novoConteudo = conteudoTraduzido.text;
 
                 // Salva a tradução no banco de dados para futuras requisições
-                const updateQuery = `UPDATE projetos SET ${tituloTraduzidoCampo} = $1, ${conteudoTraduzidoCampo} = $2 WHERE id = $3`;
+                const updateQuery = 'UPDATE projetos SET titulo_en = $1, conteudo_en = $2 WHERE id = $3';
                 await pool.query(updateQuery, [novoTitulo, novoConteudo, projeto.id]);
 
                 return {
@@ -252,6 +252,11 @@ async function updateProjeto(req, res) {
 
         sets.push(`destaque = $${idx++}`);
         values.push(destaque);
+
+        if (titulo || conteudo) {
+            sets.push('titulo_en = NULL');
+            sets.push('conteudo_en = NULL');
+        }
 
         values.push(id);
 

@@ -30,10 +30,15 @@ function getMensagem(chave) {
 async function carregarProjeto() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
+    const detalhesContainer = document.querySelector('.detalhes_projetos');
 
     if (!id) {
-        document.querySelector('.detalhes_projetos').innerHTML =
-            '<p>Projeto não encontrado.</p>';
+        if (detalhesContainer) {
+            detalhesContainer.innerHTML = '';
+            const p = document.createElement('p');
+            p.textContent = 'Projeto não encontrado.';
+            detalhesContainer.appendChild(p);
+        }
         return;
     }
 
@@ -44,8 +49,12 @@ async function carregarProjeto() {
         console.log("DETALHE CARREGADO:", projeto);
 
         if (!projeto || projeto.erro) {
-            document.querySelector('.detalhes_projetos').innerHTML =
-                '<p>Projeto não encontrado.</p>';
+            if (detalhesContainer) {
+                detalhesContainer.innerHTML = '';
+                const p = document.createElement('p');
+                p.textContent = 'Projeto não encontrado.';
+                detalhesContainer.appendChild(p);
+            }
             return;
         }
 
@@ -55,12 +64,23 @@ async function carregarProjeto() {
         // Título
         document.getElementById('titulo').textContent = getTexto(projeto, 'titulo');
 
-        // Autores (pulando linha por quebra de vírgula)
-        document.getElementById('autores').innerHTML =
-            projeto.autores ? projeto.autores.replace(/,/g, '<br>') : getMensagem('autores_nao_informados');
+        // Autores (pulando linha por quebra de vírgula) de forma segura
+        const autoresElement = document.getElementById('autores');
+        autoresElement.innerHTML = '';
+        if (projeto.autores) {
+            const partes = projeto.autores.split(',');
+            partes.forEach((parte, index) => {
+                autoresElement.appendChild(document.createTextNode(parte.trim()));
+                if (index < partes.length - 1) {
+                    autoresElement.appendChild(document.createElement('br'));
+                }
+            });
+        } else {
+            autoresElement.textContent = getMensagem('autores_nao_informados');
+        }
 
         // Conteúdo
-        document.getElementById('conteudo').innerHTML = getTexto(projeto, 'conteudo');
+        document.getElementById('conteudo').textContent = getTexto(projeto, 'conteudo');
 
         // Imagem
         if (projeto.url_imagem) {

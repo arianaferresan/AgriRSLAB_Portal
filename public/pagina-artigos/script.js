@@ -36,20 +36,41 @@ function criarArtigoCard(artigo) {
     const imagemUrl = getFullUrl(artigo.url_imagem);
     const pdfUrl = getFullUrl(artigo.link_pdf);
 
-    card.innerHTML = `
-        <div class="card-image-box">
-            <img src="${imagemUrl}" alt="Capa do Artigo: ${tituloExibicao}" onerror="this.src='https://via.placeholder.com/300x200?text=Sem+Imagem';">
-        </div>
-        <p class="card-title">${tituloExibicao}</p>
-        <div class="card-links">
-            <a href="${artigo.link_doi}" target="_blank" rel="noopener noreferrer" class="btn-card doi">
-                DOI
-            </a>
-            <a href="${pdfUrl}" target="_blank" rel="noopener noreferrer" class="btn-card pdf">
-                PDF
-            </a>
-        </div>
-    `;
+    const imageBox = document.createElement('div');
+    imageBox.className = 'card-image-box';
+    const img = document.createElement('img');
+    img.src = imagemUrl;
+    img.alt = `Capa do Artigo: ${tituloExibicao}`;
+    img.onerror = function() { this.src = 'https://via.placeholder.com/300x200?text=Sem+Imagem'; };
+    imageBox.appendChild(img);
+
+    const titlePara = document.createElement('p');
+    titlePara.className = 'card-title';
+    titlePara.textContent = tituloExibicao;
+
+    const linksDiv = document.createElement('div');
+    linksDiv.className = 'card-links';
+
+    const doiLink = document.createElement('a');
+    doiLink.href = artigo.link_doi;
+    doiLink.target = '_blank';
+    doiLink.rel = 'noopener noreferrer';
+    doiLink.className = 'btn-card doi';
+    doiLink.textContent = 'DOI';
+
+    const pdfLink = document.createElement('a');
+    pdfLink.href = pdfUrl;
+    pdfLink.target = '_blank';
+    pdfLink.rel = 'noopener noreferrer';
+    pdfLink.className = 'btn-card pdf';
+    pdfLink.textContent = 'PDF';
+
+    linksDiv.appendChild(doiLink);
+    linksDiv.appendChild(pdfLink);
+
+    card.appendChild(imageBox);
+    card.appendChild(titlePara);
+    card.appendChild(linksDiv);
     return card;
 }
 

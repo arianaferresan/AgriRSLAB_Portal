@@ -63,7 +63,10 @@ async function realizarBusca() {
         achados.push(...filtrar(vagas, termo, "Vaga", "../pagina-vagas/vagas-candidatura.html?id="));
 
         if (achados.length === 0) {
-            resultados.innerHTML = `<p>${getTranslation('nothingFound')}</p>`;
+            resultados.textContent = "";
+            const pNone = document.createElement("p");
+            pNone.textContent = getTranslation('nothingFound');
+            resultados.appendChild(pNone);
             info.textContent = "";
             return;
         }
@@ -92,29 +95,43 @@ async function realizarBusca() {
             const bloco = document.createElement("div");
             bloco.className = "grupo-busca";
 
-            bloco.innerHTML = `
-                <h3 class="titulo-grupo">
-                    <span class="icone-grupo">${icone(tipo)}</span>
-                    ${getCategoryName(tipo)}
-                </h3>
-
-                <div class="lista-cards">
-                    ${grupos[tipo].map(item => `
-                        <div class="resultado-card">
-                            <a href="${item.link}" class="resultado-link">
-                                ${item.titulo}
-                            </a>
-                        </div>
-                    `).join("")}
-                </div>
-            `;
-
+            const h3 = document.createElement("h3");
+            h3.className = "titulo-grupo";
+            
+            const spanIcone = document.createElement("span");
+            spanIcone.className = "icone-grupo";
+            spanIcone.textContent = icone(tipo);
+            
+            h3.appendChild(spanIcone);
+            h3.appendChild(document.createTextNode(" " + getCategoryName(tipo)));
+            
+            const listaCards = document.createElement("div");
+            listaCards.className = "lista-cards";
+            
+            grupos[tipo].forEach(item => {
+                const card = document.createElement("div");
+                card.className = "resultado-card";
+                
+                const link = document.createElement("a");
+                link.href = item.link;
+                link.className = "resultado-link";
+                link.textContent = item.titulo;
+                
+                card.appendChild(link);
+                listaCards.appendChild(card);
+            });
+            
+            bloco.appendChild(h3);
+            bloco.appendChild(listaCards);
             resultados.appendChild(bloco);
         }
 
     } catch (erro) {
         console.error("Erro ao buscar:", erro);
-        resultados.innerHTML = `<p>${getTranslation('searchError')}</p>`;
+        resultados.textContent = "";
+        const pError = document.createElement("p");
+        pError.textContent = getTranslation('searchError');
+        resultados.appendChild(pError);
     }
 }
 

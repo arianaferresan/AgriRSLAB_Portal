@@ -193,7 +193,11 @@ function aplicarFiltros(resetar = false) {
 async function carregarDestaques(lang = 'pt', traducoes = dicionario.pt) {
     const container = document.getElementById('cards-noticias');
     const btnVerTodasOriginal = container.querySelector('.ver-todas');
-    container.innerHTML = `<p>${traducoes.carregandoDestaques}</p>`;
+    
+    container.innerHTML = '';
+    const pLoading = document.createElement('p');
+    pLoading.textContent = traducoes.carregandoDestaques;
+    container.appendChild(pLoading);
 
     try {
         const response = await fetch(`/api/noticias/destaques?lang=${lang}`);
@@ -213,30 +217,57 @@ async function carregarDestaques(lang = 'pt', traducoes = dicionario.pt) {
             
             const targetAttr = noticia.url_noticia ? '_blank' : '_self';
 
-            const html = `
-                <a href="${linkHref}" class="card-destaque-link" target="${targetAttr}" class="card-destaque-link">
-                    <div class="card-noticia">
-                        <img src="${noticia.url_imagem}" alt="${noticia.titulo}" onerror="this.style.display='none'">
-                        <div class="texto">
-                            <h3>${noticia.titulo}</h3>
-                            <p>${noticia.subtitulo || ''}</p>
-                            <span>${dataFormatada}</span>
-                            <p class="continuar-lendo">${traducoes.lerMais}</p>
-                        </div>
-                    </div>
-                </a>
-            `;
-            container.insertAdjacentHTML('beforeend', html);
+            const a = document.createElement('a');
+            a.href = linkHref;
+            a.target = targetAttr;
+            a.className = 'card-destaque-link';
+
+            const divCard = document.createElement('div');
+            divCard.className = 'card-noticia';
+
+            const img = document.createElement('img');
+            img.src = noticia.url_imagem;
+            img.alt = noticia.titulo;
+            img.onerror = () => { img.style.display = 'none'; };
+            divCard.appendChild(img);
+
+            const divTexto = document.createElement('div');
+            divTexto.className = 'texto';
+
+            const h3 = document.createElement('h3');
+            h3.textContent = noticia.titulo;
+            divTexto.appendChild(h3);
+
+            const pSub = document.createElement('p');
+            pSub.textContent = noticia.subtitulo || '';
+            divTexto.appendChild(pSub);
+
+            const spanData = document.createElement('span');
+            spanData.textContent = dataFormatada;
+            divTexto.appendChild(spanData);
+
+            const pLerMais = document.createElement('p');
+            pLerMais.className = 'continuar-lendo';
+            pLerMais.textContent = traducoes.lerMais;
+            divTexto.appendChild(pLerMais);
+
+            divCard.appendChild(divTexto);
+            a.appendChild(divCard);
+            container.appendChild(a);
         });
 
         if (btnVerTodasOriginal) {
-            btnVerTodasOriginal.querySelector('a').textContent = traducoes.verTodas;
+            const linkBtn = btnVerTodasOriginal.querySelector('a');
+            if (linkBtn) linkBtn.textContent = traducoes.verTodas;
             container.appendChild(btnVerTodasOriginal);
         }
 
     } catch (error) {
         console.error(error);
-        container.innerHTML = `<p>${traducoes.erroDestaques}</p>`;
+        container.innerHTML = '';
+        const pErro = document.createElement('p');
+        pErro.textContent = traducoes.erroDestaques;
+        container.appendChild(pErro);
     }
 }
 
@@ -244,7 +275,11 @@ async function carregarDefesas(lang = 'pt', traducoes = dicionario.pt) {
     const container = document.querySelector('.cards-defesas');
     if (!container) return;
 
-    container.innerHTML = `<p style="padding: 20px; color: #555; width: 100%; text-align: center;">${traducoes.carregandoDefesas}</p>`;
+    container.innerHTML = '';
+    const pLoading = document.createElement('p');
+    pLoading.style.cssText = 'padding: 20px; color: #555; width: 100%; text-align: center;';
+    pLoading.textContent = traducoes.carregandoDefesas;
+    container.appendChild(pLoading);
 
     try {
         const response = await fetch(`/api/noticias/defesas?lang=${lang}`);
@@ -260,27 +295,47 @@ async function carregarDefesas(lang = 'pt', traducoes = dicionario.pt) {
         container.innerHTML = '';
 
         if (defesas.length === 0) {
-            container.innerHTML = `<p style="padding: 20px; color: #555; width: 100%; text-align: center;">${traducoes.nenhumaDefesa}</p>`;
+            const pVazio = document.createElement('p');
+            pVazio.style.cssText = 'padding: 20px; color: #555; width: 100%; text-align: center;';
+            pVazio.textContent = traducoes.nenhumaDefesa;
+            container.appendChild(pVazio);
             return;
         }
 
         const defesasParaExibir = defesas.slice(0, 6);
 
         defesasParaExibir.forEach(defesa => {
-            const htmlCard = `
-                <div class="card-defesa">
-                    <img src="${defesa.url_imagem}" alt="${defesa.titulo}" onerror="this.src='../../imagens/1.1Imagens Git/logo_404notfound.png'">
-                    <h3>${defesa.titulo || ''}</h3>
-                    <p>${defesa.subtitulo || ''}</p>
-                    <span>${formatarData(defesa.data_criacao, lang)}</span>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', htmlCard);
+            const divCard = document.createElement('div');
+            divCard.className = 'card-defesa';
+
+            const img = document.createElement('img');
+            img.src = defesa.url_imagem;
+            img.alt = defesa.titulo;
+            img.onerror = () => { img.src = '../../imagens/1.1Imagens Git/logo_404notfound.png'; };
+            divCard.appendChild(img);
+
+            const h3 = document.createElement('h3');
+            h3.textContent = defesa.titulo || '';
+            divCard.appendChild(h3);
+
+            const pSub = document.createElement('p');
+            pSub.textContent = defesa.subtitulo || '';
+            divCard.appendChild(pSub);
+
+            const spanData = document.createElement('span');
+            spanData.textContent = formatarData(defesa.data_criacao, lang);
+            divCard.appendChild(spanData);
+
+            container.appendChild(divCard);
         });
 
     } catch (error) {
         console.error(error);
-        container.innerHTML = `<p style="padding: 20px; color: red; width: 100%; text-align: center;">${traducoes.erroDefesas}</p>`;
+        container.innerHTML = '';
+        const pErro = document.createElement('p');
+        pErro.style.cssText = 'padding: 20px; color: red; width: 100%; text-align: center;';
+        pErro.textContent = traducoes.erroDefesas;
+        container.appendChild(pErro);
     }
 }
 
@@ -288,11 +343,15 @@ async function carregarEventosDoMes(lang = 'pt', traducoes = dicionario.pt) {
     const container = document.querySelector('.conteudo-linha');
     if (!container) return;
 
-    container.innerHTML = `<p style="padding: 20px; color: #555; width: 100%; text-align: center;">${traducoes.carregandoEventos}</p>`;
+    container.innerHTML = '';
+    const pLoading = document.createElement('p');
+    pLoading.style.cssText = 'padding: 20px; color: #555; width: 100%; text-align: center;';
+    pLoading.textContent = traducoes.carregandoEventos;
+    container.appendChild(pLoading);
 
     try {
-        // Busca TODAS as notícias
-        const response = await fetch(`/api/noticias?lang=${lang}`);
+        // Busca os eventos filtrados pelo backend
+        const response = await fetch(`/api/noticias/eventos?lang=${lang}`);
         if (!response.ok) throw new Error('Erro API Notícias');
 
         let todasAsNoticias = await response.json();
@@ -301,29 +360,54 @@ async function carregarEventosDoMes(lang = 'pt', traducoes = dicionario.pt) {
         container.innerHTML = '';
 
         if (todasAsNoticias.length === 0) {
-            container.innerHTML = `<p style="padding: 20px; color: #555; width: 100%; text-align: center;">${traducoes.nenhumEvento}</p>`;
+            const pVazio = document.createElement('p');
+            pVazio.style.cssText = 'padding: 20px; color: #555; width: 100%; text-align: center;';
+            pVazio.textContent = traducoes.nenhumEvento;
+            container.appendChild(pVazio);
             return;
         }
 
         todasAsNoticias.forEach(noticia => {
-            const htmlEvento = `
-                <div class="evento">
-                    <div class="data">
-                        <span class="dia">${formatarDataEventoDIA(noticia.data_criacao, lang)}</span>
-                        <span class="mes">${formatarDataEventoMES(noticia.data_criacao, lang)}</span>
-                    </div>
-                    <div class="info">
-                        <h3>${noticia.titulo}</h3>
-                        <p>${noticia.subtitulo || ''}</p>
-                    </div>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', htmlEvento);
+            const divEvento = document.createElement('div');
+            divEvento.className = 'evento';
+
+            const divData = document.createElement('div');
+            divData.className = 'data';
+            
+            const spanDia = document.createElement('span');
+            spanDia.className = 'dia';
+            spanDia.textContent = formatarDataEventoDIA(noticia.data_criacao, lang);
+            divData.appendChild(spanDia);
+
+            const spanMes = document.createElement('span');
+            spanMes.className = 'mes';
+            spanMes.textContent = formatarDataEventoMES(noticia.data_criacao, lang);
+            divData.appendChild(spanMes);
+            
+            divEvento.appendChild(divData);
+
+            const divInfo = document.createElement('div');
+            divInfo.className = 'info';
+
+            const h3 = document.createElement('h3');
+            h3.textContent = noticia.titulo;
+            divInfo.appendChild(h3);
+
+            const pSub = document.createElement('p');
+            pSub.textContent = noticia.subtitulo || '';
+            divInfo.appendChild(pSub);
+
+            divEvento.appendChild(divInfo);
+            container.appendChild(divEvento);
         });
 
     } catch (error) {
         console.error(error);
-        container.innerHTML = `<p style="padding: 20px; color: red; width: 100%; text-align: center;">${traducoes.erroEventos}</p>`;
+        container.innerHTML = '';
+        const pErro = document.createElement('p');
+        pErro.style.cssText = 'padding: 20px; color: red; width: 100%; text-align: center;';
+        pErro.textContent = traducoes.erroEventos;
+        container.appendChild(pErro);
     }
 }
 
@@ -337,7 +421,11 @@ function carregarMaisNoticias() {
     const traducoes = dicionario[lang] || dicionario['pt'];
 
     if (noticiasFiltradas.length === 0) {
-        container.innerHTML = `<p class="aviso">${traducoes.nenhumaNoticia}</p>`;
+        container.innerHTML = '';
+        const pAviso = document.createElement('p');
+        pAviso.className = 'aviso';
+        pAviso.textContent = traducoes.nenhumaNoticia;
+        container.appendChild(pAviso);
         if (btnContainer) btnContainer.style.display = 'none';
         return;
     }
@@ -350,10 +438,10 @@ function carregarMaisNoticias() {
         const chaveMes = nomeMes;
 
         if (chaveMes !== ultimoMesRenderizado) {
-            const nomeMesCap = nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1);
-            container.insertAdjacentHTML('beforeend',
-                `<h2 class="titulo-mes">${nomeMesCap}</h2>`
-            );
+            const h2Mes = document.createElement('h2');
+            h2Mes.className = 'titulo-mes';
+            h2Mes.textContent = nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1);
+            container.appendChild(h2Mes);
             ultimoMesRenderizado = chaveMes;
         }
 
@@ -361,26 +449,55 @@ function carregarMaisNoticias() {
             ? noticia.url_noticia 
             : `noticias2.html?id=${noticia.id_noticias}`;
         
-        const targetAttr = noticia.url_noticia ? 'target="_blank"' : '';
+        const targetAttr = noticia.url_noticia ? '_blank' : '_self';
 
-        // HTML do Card
-        const html = `
-            <a href="${linkHref}" class="link-card" ${targetAttr} class="link-card">
-                <div class="card-noticia">
-                    <img class="imageNotice" src="${noticia.url_imagem}" onerror="this.style.display='none'" alt="${noticia.titulo}">
-                    <div class="texto">
-                        <span class="tagEvent">${noticia.categoria || 'Geral'}</span>
-                        <h3>${noticia.titulo}</h3>
-                        <p>${noticia.texto ? noticia.texto.substring(0, 120) + '...' : ''}</p>
-                        <span class="dateEvent">
-                            <time datetime="${dataNoticia}">${formatarData(dataNoticia, lang)}</time>
-                        </span>
-                        <p class="continuar-lendo">${traducoes.lerMais}</p>
-                    </div>
-                </div>
-            </a>
-        `;
-        container.insertAdjacentHTML('beforeend', html);
+        const a = document.createElement('a');
+        a.href = linkHref;
+        a.target = targetAttr;
+        a.className = 'link-card';
+
+        const divCard = document.createElement('div');
+        divCard.className = 'card-noticia';
+
+        const img = document.createElement('img');
+        img.className = 'imageNotice';
+        img.src = noticia.url_imagem;
+        img.alt = noticia.titulo;
+        img.onerror = () => { img.style.display = 'none'; };
+        divCard.appendChild(img);
+
+        const divTexto = document.createElement('div');
+        divTexto.className = 'texto';
+
+        const spanTag = document.createElement('span');
+        spanTag.className = 'tagEvent';
+        spanTag.textContent = noticia.categoria || 'Geral';
+        divTexto.appendChild(spanTag);
+
+        const h3 = document.createElement('h3');
+        h3.textContent = noticia.titulo;
+        divTexto.appendChild(h3);
+
+        const pResumo = document.createElement('p');
+        pResumo.textContent = noticia.texto ? noticia.texto.substring(0, 120) + '...' : '';
+        divTexto.appendChild(pResumo);
+
+        const spanData = document.createElement('span');
+        spanData.className = 'dateEvent';
+        const time = document.createElement('time');
+        time.dateTime = dataNoticia;
+        time.textContent = formatarData(dataNoticia, lang);
+        spanData.appendChild(time);
+        divTexto.appendChild(spanData);
+
+        const pLerMais = document.createElement('p');
+        pLerMais.className = 'continuar-lendo';
+        pLerMais.textContent = traducoes.lerMais;
+        divTexto.appendChild(pLerMais);
+
+        divCard.appendChild(divTexto);
+        a.appendChild(divCard);
+        container.appendChild(a);
     });
 
     itensVisiveis += proximoLote.length;

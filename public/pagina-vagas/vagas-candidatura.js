@@ -71,11 +71,18 @@ async function carregarVaga() {
             requisitos = vaga.requisitos_en;
         }
 
+        const ulReq = document.getElementById("vaga-requisitos");
+        ulReq.innerHTML = "";
         if (Array.isArray(requisitos) && requisitos.length > 0) {
-            document.getElementById("vaga-requisitos").innerHTML =
-                requisitos.map(req => `<li>${req}</li>`).join("");
+            requisitos.forEach(req => {
+                const li = document.createElement("li");
+                li.textContent = req;
+                ulReq.appendChild(li);
+            });
         } else {
-            document.getElementById("vaga-requisitos").innerHTML = "<li>Requisitos não listados.</li>";
+            const li = document.createElement("li");
+            li.textContent = lang === 'en' ? "Requirements not listed." : "Requisitos não listados.";
+            ulReq.appendChild(li);
         }
 
         // 3. Benefícios
@@ -84,11 +91,18 @@ async function carregarVaga() {
             beneficios = vaga.beneficios_en;
         }
 
+        const ulBen = document.getElementById("vaga-beneficios");
+        ulBen.innerHTML = "";
         if (Array.isArray(beneficios) && beneficios.length > 0) {
-            document.getElementById("vaga-beneficios").innerHTML =
-                beneficios.map(b => `<li>${b}</li>`).join("");
+            beneficios.forEach(b => {
+                const li = document.createElement("li");
+                li.textContent = b;
+                ulBen.appendChild(li);
+            });
         } else {
-            document.getElementById("vaga-beneficios").innerHTML = "<li>Benefícios não listados.</li>";
+            const li = document.createElement("li");
+            li.textContent = lang === 'en' ? "Benefits not listed." : "Benefícios não listados.";
+            ulBen.appendChild(li);
         }
 
     } catch (erro) {

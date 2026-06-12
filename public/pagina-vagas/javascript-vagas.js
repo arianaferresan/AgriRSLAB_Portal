@@ -54,25 +54,47 @@ async function carregarVagas() {
             const card = document.createElement("div");
             card.classList.add("card-vagas");
 
-            card.innerHTML = `
-        <h4>${vaga.titulo}</h4>
-        <p>${vaga.descricao.substring(0, 180)}...</p>
+            const h4 = document.createElement("h4");
+            h4.textContent = vaga.titulo;
+            card.appendChild(h4);
 
-        <h5>${traducoes.requisitos}</h5>
-        <ul>
-          ${vaga.requisitos.map(r => `<li>${r}</li>`).join("")}
-        </ul>
+            const pDesc = document.createElement("p");
+            pDesc.textContent = vaga.descricao.substring(0, 180) + "...";
+            card.appendChild(pDesc);
 
-        <h5>${traducoes.beneficios}</h5>
-        <ul>
-          ${vaga.beneficios.map(b => `<li>${b}</li>`).join("")}
-        </ul>
+            const h5Req = document.createElement("h5");
+            h5Req.textContent = traducoes.requisitos;
+            card.appendChild(h5Req);
 
-        <a href="../pagina-vagas/vagas-candidatura.html?id=${vaga.vaga_id}"
-           class="btn-vagas btn-primary-vagas btn-sm-vagas">
-           ${traducoes.candidatar}
-        </a>
-      `;
+            const ulReq = document.createElement("ul");
+            if (vaga.requisitos && Array.isArray(vaga.requisitos)) {
+                vaga.requisitos.forEach(r => {
+                    const li = document.createElement("li");
+                    li.textContent = r;
+                    ulReq.appendChild(li);
+                });
+            }
+            card.appendChild(ulReq);
+
+            const h5Ben = document.createElement("h5");
+            h5Ben.textContent = traducoes.beneficios;
+            card.appendChild(h5Ben);
+
+            const ulBen = document.createElement("ul");
+            if (vaga.beneficios && Array.isArray(vaga.beneficios)) {
+                vaga.beneficios.forEach(b => {
+                    const li = document.createElement("li");
+                    li.textContent = b;
+                    ulBen.appendChild(li);
+                });
+            }
+            card.appendChild(ulBen);
+
+            const btnCandidatar = document.createElement("a");
+            btnCandidatar.href = `../pagina-vagas/vagas-candidatura.html?id=${vaga.vaga_id}`;
+            btnCandidatar.className = "btn-vagas btn-primary-vagas btn-sm-vagas";
+            btnCandidatar.textContent = traducoes.candidatar;
+            card.appendChild(btnCandidatar);
 
             container.appendChild(card);
         });

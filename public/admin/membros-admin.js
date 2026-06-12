@@ -108,34 +108,62 @@ async function carregarMembros() {
                 tr.classList.add('membro-oculto');
             }
 
-            tr.innerHTML = `
-    <td>
-      <div class="celula-membro">
-        <img src="${membro.foto}" alt="Foto de ${membro.nome}" class="thumb-tabela">
-        <span class="nome-membro-tabela">${membro.nome}</span>
-      </div>
-    </td>
-    <td>
-      <span class="badge-categoria">${cargo}</span>
-    </td>
-    <td>
-      <span class="badge-exibir ${membro.exibir ? 'badge-exibir--on' : 'badge-exibir--off'}">
-        ${membro.exibir ? 'Visível' : 'Oculto'}
-      </span>
-    </td>
-    <td>
-      <div class="acoes-tabela">
-        <button class="btn-secondary btn-editar" data-id="${membro.id}">Editar</button>
-        <button class="btn-danger btn-deletar" data-id="${membro.id}">Excluir</button>
-      </div>
-    </td>
-  `;
+            // Coluna Membro
+            const tdMembro = document.createElement('td');
+            const divCelula = document.createElement('div');
+            divCelula.className = 'celula-membro';
+            
+            const img = document.createElement('img');
+            img.src = membro.foto;
+            img.alt = `Foto de ${membro.nome}`;
+            img.className = 'thumb-tabela';
+            divCelula.appendChild(img);
 
-            const btnEditar = tr.querySelector('.btn-editar');
-            const btnDeletar = tr.querySelector('.btn-deletar');
+            const spanNome = document.createElement('span');
+            spanNome.className = 'nome-membro-tabela';
+            spanNome.textContent = membro.nome;
+            divCelula.appendChild(spanNome);
+            
+            tdMembro.appendChild(divCelula);
+            tr.appendChild(tdMembro);
 
+            // Coluna Categoria
+            const tdCat = document.createElement('td');
+            const spanCat = document.createElement('span');
+            spanCat.className = 'badge-categoria';
+            spanCat.textContent = cargo;
+            tdCat.appendChild(spanCat);
+            tr.appendChild(tdCat);
+
+            // Coluna Status
+            const tdStatus = document.createElement('td');
+            const spanStatus = document.createElement('span');
+            spanStatus.className = `badge-exibir ${membro.exibir ? 'badge-exibir--on' : 'badge-exibir--off'}`;
+            spanStatus.textContent = membro.exibir ? 'Visível' : 'Oculto';
+            tdStatus.appendChild(spanStatus);
+            tr.appendChild(tdStatus);
+
+            // Coluna Ações
+            const tdAcoes = document.createElement('td');
+            const divAcoes = document.createElement('div');
+            divAcoes.className = 'acoes-tabela';
+
+            const btnEditar = document.createElement('button');
+            btnEditar.className = 'btn-secondary btn-editar';
+            btnEditar.dataset.id = membro.id;
+            btnEditar.textContent = 'Editar';
             btnEditar.addEventListener('click', () => abrirModalEdicao(membro));
+            divAcoes.appendChild(btnEditar);
+
+            const btnDeletar = document.createElement('button');
+            btnDeletar.className = 'btn-danger btn-deletar';
+            btnDeletar.dataset.id = membro.id;
+            btnDeletar.textContent = 'Excluir';
             btnDeletar.addEventListener('click', () => abrirModalDelecao(membro));
+            divAcoes.appendChild(btnDeletar);
+
+            tdAcoes.appendChild(divAcoes);
+            tr.appendChild(tdAcoes);
 
             tbody.appendChild(tr);
         });

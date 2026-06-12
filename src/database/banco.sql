@@ -1,4 +1,4 @@
-DROP table if exists categoria_noticias, noticias, categoria_artigos, artigos, categoria_membros, membros, projetos, requisitos_vaga, beneficios_vaga, vagas, usuarios;
+DROP table if exists categoria_noticias, noticias, categoria_artigos, artigos, categoria_membros, membros, projetos_en, projetos, requisitos_vaga, beneficios_vaga, vagas, usuarios;
 
 -- ======  NOTICIAS  ===========================
 
@@ -336,20 +336,13 @@ CREATE TABLE projetos (
   conteudo TEXT NOT NULL,
   destaque BOOLEAN DEFAULT FALSE,
   autores TEXT,
-  destaque BOOLEAN DEFAULT FALSE,
   url_imagem VARCHAR(255),
   exibir BOOLEAN DEFAULT FALSE,
   data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  titulo_en TEXT,
+  conteudo_en TEXT,
   fase VARCHAR(20) NOT NULL DEFAULT 'finalizado'
     CHECK (fase IN ('em-andamento', 'finalizado'))
-);
-
-CREATE TABLE IF NOT EXISTS projetos_en (
-    id_traducao SERIAL PRIMARY KEY,
-    id_projeto INTEGER NOT NULL,
-    titulo VARCHAR(255),
-    conteudo TEXT,
-    CONSTRAINT fk_projeto_en FOREIGN KEY (id_projeto) REFERENCES projetos (id) ON DELETE CASCADE
 );
 
 INSERT INTO projetos (titulo, conteudo, autores, url_imagem, exibir, fase)

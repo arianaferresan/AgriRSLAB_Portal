@@ -93,25 +93,58 @@ async function carregarMembrosPublicos(secoes) {
       const card = document.createElement('div');
       card.classList.add('card-membro');
 
-      card.innerHTML = `
-        <div class="card-frente">
-          <img src="${membro.foto}" alt="Foto do Membro">
-          <div class="nome-membro-banner">
-            <h3>${membro.nome}</h3>
-            <p>${infoGrupo.cargo}</p>
-          </div>
-        </div>
-        <div class="card-verso">
-          <p>${membro.descricao || ''}</p>
-          ${membro.link
-          ? `<a href="${membro.link}" target="_blank" class="lattes-link" title="Currículo / Perfil">
-                   <span class="lattes-ver">${traducoes.ver}</span>
-                   <span class="lattes-lattes">${traducoes.lattes}</span>
-                 </a>`
-          : ''
-        }
-        </div>
-      `;
+      // Card Frente
+      const cardFrente = document.createElement('div');
+      cardFrente.classList.add('card-frente');
+      
+      const img = document.createElement('img');
+      img.src = membro.foto;
+      img.alt = 'Foto do Membro';
+      cardFrente.appendChild(img);
+
+      const banner = document.createElement('div');
+      banner.classList.add('nome-membro-banner');
+      
+      const h3 = document.createElement('h3');
+      h3.textContent = membro.nome;
+      banner.appendChild(h3);
+
+      const pCargo = document.createElement('p');
+      pCargo.textContent = infoGrupo.cargo;
+      banner.appendChild(pCargo);
+      
+      cardFrente.appendChild(banner);
+      card.appendChild(cardFrente);
+
+      // Card Verso
+      const cardVerso = document.createElement('div');
+      cardVerso.classList.add('card-verso');
+      
+      const pDesc = document.createElement('p');
+      pDesc.textContent = membro.descricao || '';
+      cardVerso.appendChild(pDesc);
+
+      if (membro.link) {
+        const aLattes = document.createElement('a');
+        aLattes.href = membro.link;
+        aLattes.target = '_blank';
+        aLattes.classList.add('lattes-link');
+        aLattes.title = 'Currículo / Perfil';
+
+        const spanVer = document.createElement('span');
+        spanVer.classList.add('lattes-ver');
+        spanVer.textContent = traducoes.ver;
+        aLattes.appendChild(spanVer);
+
+        const spanLattes = document.createElement('span');
+        spanLattes.classList.add('lattes-lattes');
+        spanLattes.textContent = traducoes.lattes;
+        aLattes.appendChild(spanLattes);
+
+        cardVerso.appendChild(aLattes);
+      }
+
+      card.appendChild(cardVerso);
 
       entry.grade.appendChild(card);
       entry.count++;

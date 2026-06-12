@@ -42,9 +42,6 @@ function criarArtigoCard(artigo) {
 
     const imagemUrl = getFullUrl(artigo.url_imagem);
 
-    // Texto para o status de visibilidade
-    const statusVisibilidade = artigo.exibir ? '<span class="status-visible">● Visível</span>' : '<span class="status-oculto">● Oculto</span>';
-
     // Formatação da data para exibição
     const dataFormatada = new Date(artigo.data_cadastro).toLocaleString('pt-BR', {
         day: '2-digit',
@@ -54,35 +51,78 @@ function criarArtigoCard(artigo) {
         minute: '2-digit'
     });
 
-    card.innerHTML = `
-        <img src="${imagemUrl}" alt="Capa do Artigo: ${artigo.titulo}" onerror="this.src='https://via.placeholder.com/300x200?text=Sem+Imagem';">
-        <div class="card-content">
-            <h3>${artigo.titulo}</h3>
-            <p><strong>Status:</strong> ${statusVisibilidade}</p>
-            <p><strong>Categoria:</strong> ${artigo.categoria_nome || 'N/A'}</p>
-            <p><strong>Cadastrado em:</strong> ${dataFormatada}</p>
-            
-            <div class="card-actions">
-                <a href="${getFullUrl(artigo.link_pdf)}" target="_blank" class="btn-primary">
-                    Baixar PDF
-                </a>
-                
-                <a href="${artigo.link_doi}" target="_blank" class="btn-secondary">
-                    Ver DOI
-                </a>
+    const img = document.createElement('img');
+    img.src = imagemUrl;
+    img.alt = `Capa do Artigo: ${artigo.titulo}`;
+    img.onerror = () => { img.src = 'https://via.placeholder.com/300x200?text=Sem+Imagem'; };
+    card.appendChild(img);
 
-                <button class="btn-secondary btn-abrir-atualizacao" 
-                        data-id="${artigo.id}">
-                    Atualizar
-                </button>
+    const divContent = document.createElement('div');
+    divContent.className = 'card-content';
 
-                <button class="btn-danger btn-abrir-delecao" 
-                        data-id="${artigo.id}" data-titulo="${artigo.titulo}">
-                    Deletar
-                </button>
-            </div>
-        </div>
-    `;
+    const h3 = document.createElement('h3');
+    h3.textContent = artigo.titulo;
+    divContent.appendChild(h3);
+
+    const pStatus = document.createElement('p');
+    const strongStatus = document.createElement('strong');
+    strongStatus.textContent = 'Status: ';
+    pStatus.appendChild(strongStatus);
+    const spanStatus = document.createElement('span');
+    spanStatus.className = artigo.exibir ? 'status-visible' : 'status-oculto';
+    spanStatus.textContent = artigo.exibir ? '● Visível' : '● Oculto';
+    pStatus.appendChild(spanStatus);
+    divContent.appendChild(pStatus);
+
+    const pCat = document.createElement('p');
+    const strongCat = document.createElement('strong');
+    strongCat.textContent = 'Categoria: ';
+    pCat.appendChild(strongCat);
+    pCat.appendChild(document.createTextNode(artigo.categoria_nome || 'N/A'));
+    divContent.appendChild(pCat);
+
+    const pCad = document.createElement('p');
+    const strongCad = document.createElement('strong');
+    strongCad.textContent = 'Cadastrado em: ';
+    pCad.appendChild(strongCad);
+    pCad.appendChild(document.createTextNode(dataFormatada));
+    divContent.appendChild(pCad);
+
+    const divActions = document.createElement('div');
+    divActions.className = 'card-actions';
+
+    const aPdf = document.createElement('a');
+    aPdf.href = getFullUrl(artigo.link_pdf);
+    aPdf.target = '_blank';
+    aPdf.className = 'btn-primary';
+    aPdf.textContent = 'Baixar PDF';
+    divActions.appendChild(aPdf);
+
+    const aDoi = document.createElement('a');
+    aDoi.href = artigo.link_doi;
+    aDoi.target = '_blank';
+    aDoi.className = 'btn-secondary';
+    aDoi.textContent = 'Ver DOI';
+    divActions.appendChild(aDoi);
+
+    const btnEdit = document.createElement('button');
+    btnEdit.className = 'btn-secondary btn-abrir-atualizacao';
+    btnEdit.dataset.id = artigo.id;
+    btnEdit.textContent = 'Atualizar';
+    btnEdit.onclick = abrirModalAtualizacao;
+    divActions.appendChild(btnEdit);
+
+    const btnDel = document.createElement('button');
+    btnDel.className = 'btn-danger btn-abrir-delecao';
+    btnDel.dataset.id = artigo.id;
+    btnDel.dataset.titulo = artigo.titulo;
+    btnDel.textContent = 'Deletar';
+    btnDel.onclick = abrirModalDelecao;
+    divActions.appendChild(btnDel);
+
+    divContent.appendChild(divActions);
+    card.appendChild(divContent);
+
     return card;
 }
 

@@ -73,10 +73,16 @@ function renderizarProjetos(lista) {
 
             a.className = `item-galeria ${destaqueClasse} ${proj.fase || ''}`;
 
-            a.innerHTML = `
-                <img src="${proj.url_imagem}" alt="${tituloExibicao}">
-                <div class="overlay-texto">${tituloExibicao}</div>
-            `;
+            const img = document.createElement('img');
+            img.src = proj.url_imagem;
+            img.alt = tituloExibicao;
+
+            const divOverlay = document.createElement('div');
+            divOverlay.className = 'overlay-texto';
+            divOverlay.textContent = tituloExibicao;
+
+            a.appendChild(img);
+            a.appendChild(divOverlay);
 
             container.appendChild(a);
         });
@@ -96,10 +102,16 @@ function renderizarProjetos(lista) {
             a.href = `../pagina-projetos/projeto-detalhe.html?id=${destaque.id}`;
             a.className = `item-galeria item-destaque`; // Mantém classes de estilo
 
-            a.innerHTML = `
-                <img src="${destaque.url_imagem}" alt="${tituloExibicao}">
-                <div class="overlay-texto">${tituloExibicao}</div>
-            `;
+            const img = document.createElement('img');
+            img.src = destaque.url_imagem;
+            img.alt = tituloExibicao;
+
+            const divOverlay = document.createElement('div');
+            divOverlay.className = 'overlay-texto';
+            divOverlay.textContent = tituloExibicao;
+
+            a.appendChild(img);
+            a.appendChild(divOverlay);
             containerHome.appendChild(a);
         }
     }

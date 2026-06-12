@@ -50,14 +50,21 @@ function criarCampoItem(valor = "", tipo = "req") {
     div.style.gap = "10px";
     div.style.marginBottom = "8px";
 
-    div.innerHTML = `
-        <input type="text" value="${valor}" class="input-${tipo}" style="flex:1">
-        <button type="button" class="btn-danger btn-remove-item">X</button>
-    `;
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = valor;
+    input.className = `input-${tipo}`;
+    input.style.flex = "1";
+    div.appendChild(input);
 
-    div.querySelector(".btn-remove-item").addEventListener("click", () => {
+    const btnRemove = document.createElement("button");
+    btnRemove.type = "button";
+    btnRemove.className = "btn-danger btn-remove-item";
+    btnRemove.textContent = "X";
+    btnRemove.addEventListener("click", () => {
         div.remove();
     });
+    div.appendChild(btnRemove);
 
     return div;
 }
@@ -75,7 +82,10 @@ async function carregarVagas() {
         const vagas = await resp.json();
 
         if (!vagas.length) {
-            container.innerHTML = "<p>Nenhuma vaga cadastrada ainda.</p>";
+            container.innerHTML = "";
+            const pVazio = document.createElement("p");
+            pVazio.textContent = "Nenhuma vaga cadastrada ainda.";
+            container.appendChild(pVazio);
             return;
         }
 
@@ -102,24 +112,58 @@ async function carregarVagas() {
             const tr = document.createElement("tr");
             if (!v.exibir) tr.classList.add("membro-oculto");
 
-            tr.innerHTML = `
-                <td>${v.titulo}</td>
-                <td>${data}</td>
+            // Coluna Vaga
+            const tdVaga = document.createElement("td");
+            tdVaga.textContent = v.titulo;
+            tr.appendChild(tdVaga);
 
-                <td>
-                    <label class="switch">
-                        <input type="checkbox" class="toggle-exibir" data-id="${v.vaga_id}" ${v.exibir ? "checked" : ""}>
-                        <span class="slider"></span>
-                    </label>
-                </td>
+            // Coluna Data
+            const tdData = document.createElement("td");
+            tdData.textContent = data;
+            tr.appendChild(tdData);
 
-                <td>
-                    <div class="acoes-tabela">
-                        <button class="btn-secondary btn-editar" data-id="${v.vaga_id}">Editar</button>
-                        <button class="btn-danger btn-deletar" data-id="${v.vaga_id}" data-titulo="${v.titulo}">Excluir</button>
-                    </div>
-                </td>
-            `;
+            // Coluna Exibir
+            const tdExibir = document.createElement("td");
+            const labelSwitch = document.createElement("label");
+            labelSwitch.className = "switch";
+            
+            const inputToggle = document.createElement("input");
+            inputToggle.type = "checkbox";
+            inputToggle.className = "toggle-exibir";
+            inputToggle.dataset.id = v.vaga_id;
+            inputToggle.checked = !!v.exibir;
+            inputToggle.addEventListener("change", toggleExibir);
+            labelSwitch.appendChild(inputToggle);
+
+            const spanSlider = document.createElement("span");
+            spanSlider.className = "slider";
+            labelSwitch.appendChild(spanSlider);
+
+            tdExibir.appendChild(labelSwitch);
+            tr.appendChild(tdExibir);
+
+            // Coluna Ações
+            const tdAcoes = document.createElement("td");
+            const divAcoes = document.createElement("div");
+            divAcoes.className = "acoes-tabela";
+
+            const btnEditar = document.createElement("button");
+            btnEditar.className = "btn-secondary btn-editar";
+            btnEditar.dataset.id = v.vaga_id;
+            btnEditar.textContent = "Editar";
+            btnEditar.addEventListener("click", abrirEditar);
+            divAcoes.appendChild(btnEditar);
+
+            const btnDeletar = document.createElement("button");
+            btnDeletar.className = "btn-danger btn-deletar";
+            btnDeletar.dataset.id = v.vaga_id;
+            btnDeletar.dataset.titulo = v.titulo;
+            btnDeletar.textContent = "Excluir";
+            btnDeletar.addEventListener("click", abrirDelecao);
+            divAcoes.appendChild(btnDeletar);
+
+            tdAcoes.appendChild(divAcoes);
+            tr.appendChild(tdAcoes);
 
             tbody.appendChild(tr);
         });
@@ -127,21 +171,12 @@ async function carregarVagas() {
         container.innerHTML = "";
         container.appendChild(tabela);
 
-        document.querySelectorAll(".btn-editar").forEach(btn =>
-            btn.addEventListener("click", abrirEditar)
-        );
-
-        document.querySelectorAll(".btn-deletar").forEach(btn =>
-            btn.addEventListener("click", abrirDelecao)
-        );
-
-        document.querySelectorAll(".toggle-exibir").forEach(chk =>
-            chk.addEventListener("change", toggleExibir)
-        );
-
     } catch (e) {
         console.error(e);
-        container.innerHTML = "<p>Erro ao carregar vagas.</p>";
+        container.innerHTML = "";
+        const pErro = document.createElement("p");
+        pErro.textContent = "Erro ao carregar vagas.";
+        container.appendChild(pErro);
     }
 }
 
