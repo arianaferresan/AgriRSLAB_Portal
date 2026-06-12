@@ -14,18 +14,7 @@ const customAlert = (msgContainer, message, isError = false) => {
     showMessage(msgContainer, message, isError ? 'error' : 'success');
 };
 
-/**
- * Retorna o texto no idioma correto (PT ou EN).
- */
-function getTexto(item, campo) {
-    const lang = localStorage.getItem('selectedLanguage') || 'pt';
 
-    // Se for inglês E existir tradução, retorna inglês. Senão, retorna PT (ou base).
-    if (lang === 'en' && item[campo + '_en']) {
-        return item[campo + '_en'];
-    }
-    return item[campo] || item[campo + '_pt']; 
-}
 
 // =====================================================================
 // 1. CARREGAR DADOS DA VAGA (Do URL e do Backend)

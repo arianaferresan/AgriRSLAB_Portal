@@ -38,11 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const toastMessage = document.getElementById("toast-message");
 
     // --- Funções Auxiliares ---
-    function showToast(message, isError = false) {
-        toastMessage.textContent = message;
-        toast.className = "show" + (isError ? " error" : "");
-        setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
-    }
+    
     
     function formatarDataParaInput(dataISO) {
         if (!dataISO) return '';

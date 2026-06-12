@@ -54,15 +54,7 @@ const dicionario = {
 // =========================================
 // FUNÇÕES AUXILIARES
 // =========================================
-function formatarData(dataISO, lang = 'pt') {
-    if (!dataISO) return '';
-    const locale = lang === 'pt' ? 'pt-BR' : 'en-US';
-    const data = new Date(dataISO);
-    const dia = String(data.getUTCDate()).padStart(2, '0');
-    const mes = String(data.getUTCMonth() + 1).padStart(2, '0');
-    const ano = data.getUTCFullYear();
-    return locale === 'pt-BR' ? `${dia}/${mes}/${ano}` : `${mes}/${dia}/${ano}`;
-}
+
 
 function getNomeMes(dataISO, lang = 'pt') {
     if (!dataISO) return '';

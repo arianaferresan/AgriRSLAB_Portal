@@ -7,7 +7,7 @@
         const url = typeof resource === "string" ? resource : resource.url;
         const shouldAttachToken = token && url && (
             url.startsWith("/api/") ||
-            url.startsWith("http://localhost:3000/api/")
+            url.startsWith("/api/")
         );
 
         if (!shouldAttachToken) {

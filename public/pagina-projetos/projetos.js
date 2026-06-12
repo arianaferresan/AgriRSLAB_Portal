@@ -29,10 +29,7 @@ async function carregarProjetos() {
 // RENDERIZA LISTA 
 // ===============================================
 // Função auxiliar para pegar texto baseado no idioma
-function getTexto(item, campo) {
-    // O backend agora envia o campo já traduzido. Apenas retornamos o valor.
-    return item[campo];
-}
+
 
 function renderizarProjetos(lista) {
 

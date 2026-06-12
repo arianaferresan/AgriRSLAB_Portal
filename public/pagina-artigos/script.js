@@ -2,12 +2,7 @@
 
 const API_PUBLIC_URL = 'http://localhost:3000/api/artigos/publicos';
 
-function getFullUrl(path) {
-    if (path && !path.startsWith('http')) {
-        return `http://localhost:3000${path}`;
-    }
-    return path;
-}
+
 
 /**
  * Cria o HTML para um único card de artigo.
@@ -15,16 +10,7 @@ function getFullUrl(path) {
  * @returns {HTMLElement} O elemento do card.
  */
 // Função auxiliar para pegar texto baseado no idioma
-function getTexto(item, campo) {
-    const lang = localStorage.getItem('selectedLanguage') || 'pt';
 
-    // Se for inglês E existir tradução, retorna inglês. Senão, retorna PT.
-    if (lang === 'en' && item[campo + '_en']) {
-        return item[campo + '_en'];
-    }
-    // O controller agora retorna 'titulo_pt', mas vamos garantir compatibilidade
-    return item[campo + '_pt'] || item[campo];
-}
 // ======================= CRIAR CARD =======================
 
 function criarArtigoCard(artigo) {

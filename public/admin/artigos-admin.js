@@ -19,16 +19,7 @@ let artigoParaDeletarId = null; // Variável global para armazenar o ID a ser de
 // FUNÇÕES DE EXIBIÇÃO E RENDERIZAÇÃO
 // ----------------------------------------------------------------------
 
-/**
- * Converte o caminho de arquivo local (se for o caso) para a URL completa
- */
-function getFullUrl(path) {
-    // Se o caminho não começar com http (é um caminho local /uploads/), adiciona a base da API
-    if (path && !path.startsWith('http')) {
-        return `http://localhost:3000${path}`;
-    }
-    return path;
-}
+
 
 /**
  * Cria o HTML para um único card de artigo.
@@ -299,25 +290,7 @@ document.getElementById('btn-cancelar-delecao').onclick = fecharModais;
 // FUNÇÃO DE NOTIFICAÇÃO (TOAST)
 // ----------------------------------------------------------------------
 
-/**
- * Exibe uma notificação customizada na tela.
- * @param {string} message - A mensagem a ser exibida.
- * @param {string} type - O tipo de notificação ('success' ou 'error').
- */
-function showToast(message, type = 'success') {
-    const toast = document.getElementById('custom-toast');
-    const toastMessage = document.getElementById('toast-message');
 
-    toastMessage.textContent = message;
-    toast.className = ''; // Limpa classes anteriores
-    toast.classList.add(type); // Adiciona 'success' ou 'error'
-    toast.classList.add('show');
-
-    // Esconde a notificação após 3 segundos
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
-}
 
 // ----------------------------------------------------------------------
 // FUNÇÕES DE INTERAÇÃO COM A API (SUBMITs)

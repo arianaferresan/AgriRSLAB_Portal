@@ -1,17 +1,6 @@
 document.addEventListener('DOMContentLoaded', carregarProjeto);
 
-/**
- * Retorna o texto no idioma correto (PT ou EN).
- */
-function getTexto(item, campo) {
-    const lang = localStorage.getItem('selectedLanguage') || 'pt';
 
-    // Se for inglês E existir tradução, retorna inglês. Senão, retorna PT.
-    if (lang === 'en' && item[campo + '_en']) {
-        return item[campo + '_en'];
-    }
-    return item[campo] || item[campo + '_pt']; // Fallback para campo base ou campo _pt
-}
 
 /**
  * Retorna mensagens traduzidas conforme o idioma selecionado.

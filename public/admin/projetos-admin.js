@@ -1,7 +1,7 @@
 // ============================================================================
 // CONFIG
 // ============================================================================
-const API_BASE_URL = 'http://localhost:3000/api/projetos';
+const API_BASE_URL = '/api/projetos';
 const projetosContainer = document.getElementById('container-projetos');
 
 // Modais
@@ -20,12 +20,7 @@ let projetoParaDeletarId = null;
 // ============================================================================
 // HELPERS
 // ============================================================================
-function getFullUrl(path) {
-    if (path && !path.startsWith('http')) {
-        return `http://localhost:3000${path}`;
-    }
-    return path;
-}
+
 
 function getStatusVisivel(exibir) {
     return exibir
@@ -33,17 +28,7 @@ function getStatusVisivel(exibir) {
         : '<span class="status-oculto">● Oculto</span>';
 }
 
-function showToast(message, type = 'success') {
-    const toast = document.getElementById('custom-toast');
-    const msg = document.getElementById('toast-message');
 
-    msg.textContent = message;
-    toast.className = '';
-    toast.classList.add(type);
-    toast.classList.add('show');
-
-    setTimeout(() => toast.classList.remove('show'), 3000);
-}
 
 function resumo(conteudo) {
     if (!conteudo) return 'Sem descrição';

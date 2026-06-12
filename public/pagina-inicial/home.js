@@ -285,14 +285,7 @@ function limparTexto(texto) {
     return texto.replace(/<[^>]*>?/gm, '').trim();
 }
 
-function formatarData(dataISO, lang) {
-    if (!dataISO) return '';
-    const data = new Date(dataISO);
-    if (Number.isNaN(data.getTime())) return '';
-    return data.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'en-US', {
-        day: '2-digit', month: 'short', year: 'numeric'
-    });
-}
+
 
 function aplicarImagem(imgEl, url) {
     if (!imgEl) return;

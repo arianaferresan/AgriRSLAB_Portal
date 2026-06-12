@@ -5,20 +5,7 @@ const API_BASE_URL = '/api/membros';
 let membroSelecionadoParaDelecao = null;
 
 // Helpers de UI
-function showToast(message, tipo = 'info') {
-    const toast = document.getElementById('custom-toast');
-    const toastMsg = document.getElementById('toast-message');
 
-    if (!toast || !toastMsg) return;
-
-    toastMsg.textContent = message;
-    toast.className = ''; // limpa classes
-    toast.classList.add('show', tipo); // 'show', 'info', 'error', etc se você usar no CSS
-
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
-}
 
 function abrirModal(modal) {
     if (modal) {

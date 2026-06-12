@@ -6,17 +6,7 @@ const API_URL = "/api/vagas";
 let vagaSelecionada = null;
 
 // Toast
-function showToast(msg, tipo = "success") {
-    const toast = document.getElementById("custom-toast");
-    const msgSpan = document.getElementById("toast-message");
 
-    msgSpan.textContent = msg;
-    toast.className = "";
-    toast.classList.add("show");
-    toast.classList.add(tipo);
-
-    setTimeout(() => toast.classList.remove("show"), 3000);
-}
 
 // Modais
 const modalCadastro = document.getElementById("modal-cadastro");
