@@ -51,7 +51,7 @@ async function realizarBusca() {
             fetch("/api/artigos/publicos").then(r => r.json()).catch(() => []),
             fetch("/api/membros/publicos").then(r => r.json()).catch(() => []),
             fetch("/api/projetos/publicos").then(r => r.json()).catch(() => []),
-            fetch("/api/vagas").then(r => r.json()).catch(() => [])
+            fetch("/api/vagas/publicos").then(r => r.json()).catch(() => [])
         ]);
 
         let achados = [];

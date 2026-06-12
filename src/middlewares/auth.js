@@ -1,7 +1,11 @@
 const jwt = require("jsonwebtoken");
 
 function getSecret() {
-  return process.env.JWT_SECRET || "dev-secret-change-me";
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("JWT_SECRET nao configurado");
+  }
+  return secret;
 }
 
 // Tenta ler o token do Header ou de Cookies
@@ -32,6 +36,10 @@ function auth(req, res, next) {
     };
     return next();
   } catch (err) {
+    if (err.message === "JWT_SECRET nao configurado") {
+      console.error("Erro de configuracao de autenticacao:", err.message);
+      return res.status(500).json({ error: "Autenticacao indisponivel" });
+    }
     return res.status(401).json({ error: "Token inválido ou expirado" });
   }
 }

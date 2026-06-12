@@ -3,7 +3,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 function getJwtSecret() {
-  return process.env.JWT_SECRET || "dev-secret-change-me";
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("JWT_SECRET nao configurado");
+  }
+  return secret;
 }
 
 // Atualiza e-mail e/ou senha do usuário atual a partir do token (req.user)

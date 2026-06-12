@@ -1,4 +1,10 @@
+.env
 node_modules
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
 /src/upload/*.jpg
 /src/upload/*.jpeg
 /src/upload/*.png

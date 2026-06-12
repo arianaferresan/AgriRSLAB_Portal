@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const fs = require('fs');
 const path = require('path');
+const auth = require('../middlewares/auth');
+const { createSecureUpload, handleUploadErrors } = require('../middlewares/upload');
 
 const {
     createProjeto,
@@ -16,46 +16,20 @@ const {
 
 const uploadDir = path.resolve(__dirname, '..', 'upload', 'projetos');
 
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, file.fieldname + '-' + unique + ext);
-    }
-});
-
-const upload = multer({
-    storage,
-    limits: { fileSize: 20 * 1024 * 1024 } // 5 MB
+const upload = createSecureUpload({
+    destination: uploadDir,
+    maxFileSize: 10 * 1024 * 1024,
+    fields: [
+        { name: 'imagem', maxCount: 1, allowedExtensions: ['.jpg', '.jpeg', '.png', '.gif', '.webp'] }
+    ]
 }).fields([{ name: 'imagem', maxCount: 1 }]);
 
-
-// ==================================================
-//  ROTAS ESPECÍFICAS 
-// ==================================================
-
-// ✔ Nova rota para destaque
 router.get('/publicos-com-destaque', getProjetosPublicosComDestaque);
-
-// ✔ Rota normal de publicados
 router.get('/publicos', getProjetosPublicados);
-
-// ✔ Listar todos
-router.get('/', getAllProjetos);
-
-// ==================================================
-// ROTAS DINÂMICAS 
-// ==================================================
+router.get('/', auth, getAllProjetos);
 router.get('/:id', getProjetoById);
-router.post('/', upload, createProjeto);
-router.put('/:id', upload, updateProjeto);
-router.delete('/:id', deleteProjeto);
+router.post('/', auth, upload, handleUploadErrors, createProjeto);
+router.put('/:id', auth, upload, handleUploadErrors, updateProjeto);
+router.delete('/:id', auth, deleteProjeto);
 
 module.exports = router;
