@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         inicializarMenuHamburguer();
         inicializarBuscaGlobal();
         inicializarControleIdioma(); // Nova função para o seletor de idioma
+        marcarLinkAtual();
 
         // Aplica a tradução inicial assim que o header é carregado
         applyHeaderFooterTranslations(localStorage.getItem('selectedLanguage') || 'pt');
@@ -123,7 +124,15 @@ function inicializarMenuHamburguer() {
 
   hamburguer.addEventListener("click", (e) => {
     e.stopPropagation(); // Impede que o clique feche o menu imediatamente
-    menu.classList.toggle("active");
+    const isOpen = menu.classList.toggle("active");
+    hamburguer.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  menu.addEventListener("click", (event) => {
+    if (event.target.closest("a")) {
+      menu.classList.remove("active");
+      hamburguer.setAttribute("aria-expanded", "false");
+    }
   });
 
   // Fecha o menu ao clicar fora dele
@@ -132,6 +141,15 @@ function inicializarMenuHamburguer() {
     const cliqueNoHamburguer = hamburguer.contains(event.target);
     if (!cliqueDentroMenu && !cliqueNoHamburguer) {
       menu.classList.remove("active");
+      hamburguer.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      menu.classList.remove("active");
+      hamburguer.setAttribute("aria-expanded", "false");
+      hamburguer.focus();
     }
   });
 }
@@ -176,6 +194,29 @@ function inicializarControleIdioma() {
     // Dispara um evento para que o i18n.js e outros scripts possam "ouvir" a mudança
     window.dispatchEvent(new Event('languageChange')); // Notifica todos os listeners
   }
+
+  document.querySelectorAll('.language-button[data-lang]').forEach((button) => {
+    const lang = button.getAttribute('data-lang');
+    button.setAttribute('aria-pressed', String(lang === localStorage.getItem('selectedLanguage')));
+    button.addEventListener('click', () => {
+      window.mudarIdioma(lang);
+      document.querySelectorAll('.language-button[data-lang]').forEach((item) => {
+        item.setAttribute('aria-pressed', String(item.getAttribute('data-lang') === lang));
+      });
+    });
+  });
+}
+
+function marcarLinkAtual() {
+  const caminhoAtual = window.location.pathname;
+
+  document.querySelectorAll('.decorationHeaderMenu[href]').forEach((link) => {
+    const destino = new URL(link.getAttribute('href'), window.location.href).pathname;
+
+    if (caminhoAtual === destino || caminhoAtual.endsWith(destino)) {
+      link.setAttribute('aria-current', 'page');
+    }
+  });
 }
 
 /**

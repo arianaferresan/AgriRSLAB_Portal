@@ -1,0 +1,22 @@
+Sprint 7.3 - Fase 1
+
+Implementar apenas:
+
+1. Header e Footer
+2. Shell público
+3. Cards compartilhados
+4. Inputs, filtros e formulários compartilhados
+
+Objetivo:
+Eliminar a sensação de interface chapada e construída por partes.
+
+Não alterar:
+- backend
+- APIs
+- rotas
+- conteúdo
+- funcionalidades
+
+Não implementar Notícias, Artigos, Projetos, Membros ou Admin ainda.
+
+Quero apenas a camada visual compartilhada do portal.

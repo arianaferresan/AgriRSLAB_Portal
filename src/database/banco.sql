@@ -1,4 +1,4 @@
-DROP table if exists categoria_noticias, noticias, categoria_artigos, artigos, categoria_membros, membros, projetos_en, projetos, requisitos_vaga, beneficios_vaga, vagas, usuarios;
+DROP table if exists categoria_noticias, noticias, categoria_artigos, artigos, categoria_membros, membros, projetos_en, projetos, requisitos_vaga, beneficios_vaga, vagas, sobre_conteudo, usuarios;
 
 -- ======  NOTICIAS  ===========================
 
@@ -441,6 +441,21 @@ VALUES
 -- ======================================================================================
 -- TABELAS DE TRADUÇÃO (INGLÊS)
 -- ======================================================================================
+
+-- ======  SOBRE  ===========================
+CREATE TABLE IF NOT EXISTS sobre_conteudo (
+    id INTEGER PRIMARY KEY DEFAULT 1,
+    titulo VARCHAR(120) NOT NULL,
+    subtitulo VARCHAR(180) NOT NULL,
+    texto_principal TEXT NOT NULL,
+    missao TEXT NOT NULL,
+    visao TEXT NOT NULL,
+    valores TEXT NOT NULL,
+    url_imagem VARCHAR(500),
+    atualizado_em TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    usuario_responsavel VARCHAR(100),
+    CONSTRAINT sobre_conteudo_singleton CHECK (id = 1)
+);
 
 -- Tabela de tradução para vagas em inglês
 CREATE TABLE IF NOT EXISTS vagas_en (

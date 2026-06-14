@@ -1,0 +1,89 @@
+/* ============================================================================
+   VARIABLES.CSS - Tokens Globais de Estilo do Frontend
+   ============================================================================ */
+
+:root {
+    /* Cores Principais */
+    --color-primary: #36794E;
+    --color-primary-hover: #4b924d;
+    --color-secondary: #55A357;
+    --color-primary-soft: #E0F9D5;
+
+    /* Tons de Fundo e Texto */
+    --color-white: #ffffff;
+    --color-bg-light: #f8f9fa;
+    --color-text-dark: #333333;
+    --color-text-muted: #555555;
+    --color-text-light: #cccccc;
+    --color-border: #dddddd;
+    --color-brown: #604639;
+    --color-text-on-dark: #f0f2f5;
+
+    /* Utilitários */
+    --color-danger: #dc3545;
+    --color-success: #28a745;
+    --color-info: #0F5289;
+    --color-info-muted: #487DB4;
+    --color-info-soft: #DDF1FB;
+    --color-info-soft-strong: #BCE2F7;
+    --color-warning: #D3D840;
+    
+    /* Fontes */
+    --font-primary: "Montserrat", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-secondary: "Merriweather", Georgia, "Times New Roman", serif;
+    --font-ui: "Montserrat", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+    /* Espaçamentos e Bordas */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 10px;
+    --border-radius-xl: 12px;
+    --border-radius-pill: 25px;
+
+    /* Sombras baseadas no que já existia (ex: --sombra em alguns arquivos) */
+    --sombra-alpha: rgba(0, 0, 0, 0.3);
+    --sombra-light: rgba(0, 0, 0, 0.1);
+
+    /* Aliases legados consolidados para preservar a aparencia atual */
+    --verde-escuro: var(--color-primary);
+    --verde-claro: var(--color-secondary);
+    --verde-1: var(--color-primary);
+    --verde-2: var(--color-secondary);
+    --verde-borda: #cfe9d7;
+    --verde-clarinho: var(--color-primary-soft);
+    --verde-titulo: var(--color-secondary);
+    --azul-escuro: var(--color-info);
+    --azul-claro: var(--color-info-muted);
+    --azul1: var(--color-info);
+    --azul2: var(--color-info-muted);
+    --azul-clarinho1: var(--color-info-soft);
+    --azul-clarinho2: var(--color-info-soft-strong);
+    --azul-card: #d4e8f8;
+    --marrom: var(--color-brown);
+    --fundo-branco: var(--color-bg-light);
+    --cinza-BACK: var(--color-bg-light);
+    --cinza-borda: #e6e6e6;
+    --cinza-escuro: #3a3a3a;
+    --branco-card: var(--color-white);
+    --texto: var(--color-text-dark);
+    --texto-escuro: var(--color-text-dark);
+    --texto-claro: var(--color-text-on-dark);
+    --cor-texto-branco: var(--color-white);
+    --cor-texto-claro: var(--color-white);
+    --cor-texto-escuro: var(--color-text-dark);
+    --amarelo-ver: var(--color-warning);
+
+    /* Sprint 7.3 - refinamento visual */
+    --color-page-bg: #f4f7f3;
+    --color-surface: #ffffff;
+    --color-surface-soft: #f8fbf7;
+    --color-border-soft: rgba(41, 82, 54, 0.14);
+    --color-border-strong: rgba(41, 82, 54, 0.24);
+    --color-text-heading: #1f4f32;
+    --shadow-xs: 0 1px 2px rgba(20, 55, 36, 0.06);
+    --shadow-sm: 0 6px 18px rgba(20, 55, 36, 0.08);
+    --shadow-md: 0 12px 30px rgba(20, 55, 36, 0.12);
+    --focus-ring: 0 0 0 3px rgba(85, 163, 87, 0.28);
+    --content-max-width: 1180px;
+    --section-padding-y: clamp(36px, 5vw, 58px);
+}

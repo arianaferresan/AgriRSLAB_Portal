@@ -4,8 +4,8 @@
    VARIÁVEIS GERAIS
 ====================================== */
 :root {
-  --verde-escuro: #36794E;
-  --verde-claro: #55A357;
+  --verde-escuro: var(--color-primary);
+  --verde-claro: var(--color-secondary);
   --verde-clarinho: #E0F9D5;
 
   --azul-escuro: #0F5289;
@@ -15,19 +15,19 @@
   --azul-card: #d4e8f8;
 
 
-  --marrom: #604639;
-  --fundo-branco: #F8F9FA;
-  --texto-escuro: #333;
+  --marrom: var(--color-brown);
+  --fundo-branco: var(--color-bg-light);
+  --texto-escuro: var(--color-text-dark);
   --texto-claro: #f0f2f5;
-  --cor-texto-branco: #ffffff;
-  --sombra: rgba(0, 0, 0, 0.3);
+  --cor-texto-branco: var(--color-white);
+  
 
   --amarelo-ver: #D3D840;
 }
 
 * {
   box-sizing: border-box;
-  font-family: "Montserrat", "Open Sans", Arial, sans-serif;
+  font-family: var(--font-primary);
 }
 
 /* ======================================
@@ -77,7 +77,7 @@ img {
 .titulo-secao {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text-dark);
   position: relative;
   display: inline-block;
   margin: 30px 0 10px 0;
@@ -317,9 +317,9 @@ ul:hover .decorationHeaderMenu:not(:hover) {
    FOOTER
 ====================================== */
 .rodape-agrirslab {
-  background-color: #604639;
-  color: #ffffff;
-  font-family: "Montserrat", sans-serif;
+  background-color: var(--color-brown);
+  color: var(--color-white);
+  font-family: var(--font-primary);
   padding: 40px 60px 20px;
 }
 
@@ -361,19 +361,19 @@ ul:hover .decorationHeaderMenu:not(:hover) {
 }
 
 .botao-acesso {
-  background-color: #55A357;
-  color: #ffffff;
+  background-color: var(--color-secondary);
+  color: var(--color-white);
   text-align: center;
   padding: 8px 25px;
   border-radius: 6px;
   width: fit-content;
   font-weight: 600;
-  box-shadow: -3px -3px 0 #36794E;
+  box-shadow: -3px -3px 0 var(--color-primary);
   transition: background 0.3s ease;
 }
 
 .botao-acesso:hover {
-  background-color: #36794E;
+  background-color: var(--color-primary);
 }
 
 .icones-redes {
@@ -412,7 +412,7 @@ ul:hover .decorationHeaderMenu:not(:hover) {
   max-width: 500px;
   height: 200px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -683,4 +683,502 @@ MENU HAMBURGUER
     z-index: 3001; 
 }
 
+}
+
+/* ======================================
+   SPRINT 4 UI/UX - HEADER PUBLICO
+====================================== */
+
+.headerTop {
+  gap: 18px;
+  padding: 0 clamp(16px, 3vw, 36px);
+}
+
+.imageLogo {
+  margin: 0;
+}
+
+.searchBar {
+  margin: 0;
+  width: min(32vw, 320px);
+  min-width: 220px;
+}
+
+.inputSearch {
+  width: 100%;
+  min-height: 40px;
+}
+
+.headerBottom {
+  padding: 0 clamp(16px, 3vw, 36px);
+}
+
+.navBar {
+  align-items: center;
+  min-width: 0;
+}
+
+.ulNav {
+  gap: clamp(12px, 1.6vw, 24px);
+  margin-left: 0;
+  min-width: 0;
+}
+
+.ulNav li:first-child {
+  padding-left: 0;
+}
+
+.item-direita {
+  margin-right: 0;
+}
+
+.decorationHeaderMenu {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  white-space: nowrap;
+}
+
+.decorationHeaderMenu:hover {
+  transform: translateY(-1px);
+}
+
+.language-selector {
+  flex: 0 0 auto;
+  margin-left: 16px !important;
+}
+
+.language-selector button {
+  min-width: 42px;
+  min-height: 32px;
+}
+
+@media (max-width: 1024px) {
+  .headerTop {
+    height: 86px;
+  }
+
+  .imageLogo {
+    height: 68px;
+  }
+
+  .searchBar {
+    width: min(36vw, 280px);
+    min-width: 190px;
+  }
+
+  .headerBottom {
+    min-height: 48px;
+  }
+
+  .ulNav {
+    gap: 10px;
+  }
+
+  .decorationHeaderMenu {
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 820px) {
+  .headerTop {
+    height: 74px;
+    gap: 12px;
+  }
+
+  .imageLogo {
+    height: 56px;
+  }
+
+  .h1HEADER {
+    font-size: 1.1rem;
+  }
+
+  .searchBar {
+    display: flex;
+    width: min(42vw, 240px);
+    min-width: 160px;
+  }
+
+  .inputSearch {
+    min-height: 36px;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerBottom {
+    min-height: 54px;
+    padding: 0 16px;
+  }
+
+  .hamburguer {
+    position: static;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: var(--border-radius-md);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .bar {
+    width: 22px;
+  }
+
+  .navBar {
+    justify-content: space-between;
+  }
+
+  .navBar.active .ulNav {
+    display: flex !important;
+  }
+
+  .ulNav {
+    left: 16px;
+    right: 16px;
+    width: auto;
+    padding: 10px 16px;
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+  }
+
+  .ulNav.active {
+    display: flex !important;
+  }
+
+  .ulNav li {
+    width: 100%;
+    margin: 0;
+  }
+
+  .ulNav.active li a,
+  .navBar.active .ulNav li a {
+    min-height: 42px;
+    padding: 10px 0;
+  }
+
+  .language-selector {
+    position: static !important;
+    transform: none !important;
+    margin-left: auto !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .headerTop {
+    height: auto;
+    min-height: 76px;
+    flex-wrap: wrap;
+    padding: 10px 14px;
+  }
+
+  .h1HEADER {
+    flex: 1 1 calc(100% - 76px);
+  }
+
+  .searchBar {
+    order: 3;
+    display: flex;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .headerBottom {
+    min-height: 52px;
+  }
+}
+
+/* ======================================
+   SPRINT 6 UI/UX - CONSISTENCIA GLOBAL
+====================================== */
+
+.headerTop,
+.headerBottom,
+.rodape-agrirslab {
+  flex-shrink: 0;
+}
+
+.headerTop {
+  min-height: 82px;
+}
+
+.headerBottom {
+  min-height: 46px;
+}
+
+.navBar {
+  gap: 12px;
+}
+
+.ulNav {
+  min-width: 0;
+}
+
+.decorationHeaderMenu {
+  border-radius: var(--border-radius-sm);
+  padding: 0 2px;
+  outline-offset: 4px;
+}
+
+.decorationHeaderMenu[aria-current="page"] {
+  text-decoration: underline solid var(--verde-clarinho) 2px;
+  text-underline-offset: 6px;
+}
+
+.searchBtn,
+.hamburguer,
+.language-button,
+.botao-acesso,
+.icones-redes a {
+  outline-offset: 3px;
+}
+
+.searchBtn:focus-visible,
+.hamburguer:focus-visible,
+.language-button:focus-visible,
+.decorationHeaderMenu:focus-visible,
+.botao-acesso:focus-visible,
+.icones-redes a:focus-visible {
+  outline: 3px solid var(--verde-clarinho);
+}
+
+.language-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.language-button {
+  cursor: pointer;
+  border: 2px solid #c8e6c9;
+  background: #e8f5e9;
+  padding: 3px;
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.language-button:hover,
+.language-button[aria-pressed="true"] {
+  border-color: var(--verde-claro);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.16);
+}
+
+.language-button img {
+  width: 32px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+}
+
+@media (max-width: 1366px) and (min-width: 821px) {
+  .headerTop {
+    height: 78px;
+  }
+
+  .imageLogo {
+    height: 62px;
+  }
+
+  .headerBottom {
+    padding: 0 24px;
+  }
+
+  .ulNav {
+    gap: 10px;
+  }
+
+  .decorationHeaderMenu {
+    font-size: 0.86rem;
+  }
+
+  .searchBar {
+    width: min(28vw, 260px);
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .language-selector {
+    margin-left: auto !important;
+  }
+
+  .ulNav {
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .language-button img {
+    width: 30px;
+    height: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decorationHeaderMenu,
+  .searchBtn,
+  .hamburguer,
+  .language-button,
+  .botao-acesso,
+  .icones-redes img {
+    transition: none !important;
+  }
+}
+
+/* ======================================
+   SPRINT 7.3 - REFINAMENTO DO SHELL PUBLICO
+====================================== */
+
+body {
+  background:
+    linear-gradient(180deg, rgba(54, 121, 78, 0.04), transparent 220px),
+    var(--color-page-bg, var(--fundo-branco));
+  color: var(--texto-escuro);
+}
+
+main {
+  width: 100%;
+}
+
+.headerTop,
+.headerBottom {
+  background: var(--verde-escuro);
+}
+
+.headerTop {
+  box-shadow: 0 8px 22px rgba(18, 63, 34, 0.12);
+}
+
+.h1HEADER {
+  margin: 0;
+  line-height: 1.22;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.inputSearch {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 1px 2px rgba(20, 55, 36, 0.08);
+}
+
+.decorationHeaderMenu {
+  padding: 0 4px;
+  text-underline-offset: 6px;
+  transition: color 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
+}
+
+.decorationHeaderMenu:hover {
+  color: var(--verde-clarinho);
+  text-decoration-thickness: 2px;
+}
+
+ul:hover .decorationHeaderMenu:not(:hover) {
+  opacity: 0.82;
+}
+
+.rodape-agrirslab {
+  padding: 34px clamp(20px, 4vw, 56px) 18px;
+  background: #5f4a35;
+}
+
+.container-rodape {
+  width: min(100%, var(--content-max-width, 1180px));
+  margin: 0 auto;
+  gap: 28px;
+}
+
+.texto-rodape {
+  max-width: 620px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.botao-acesso {
+  min-height: 40px;
+  box-shadow: none;
+}
+
+.mapa-rodape {
+  box-shadow: 0 10px 24px rgba(20, 31, 24, 0.18);
+}
+
+.coluna-esquerda,
+.coluna-direita {
+  gap: 18px;
+}
+
+.footer-bloco {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-identidade {
+  padding-bottom: 6px;
+}
+
+.footer-contato {
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.footer-localizacao {
+  max-width: 360px;
+}
+
+.footer-descricao {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.titulo-rodape {
+  margin-top: 0;
+}
+
+.botao-acesso {
+  align-self: flex-start;
+}
+
+.icones-redes {
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .headerTop {
+    box-shadow: none;
+  }
+
+  .ulNav {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .rodape-agrirslab {
+    padding: 28px 18px 18px;
+  }
+
+  .container-rodape {
+    gap: 18px;
+  }
+
+  .footer-contato {
+    padding-top: 14px;
+  }
+
+  .botao-acesso {
+    align-self: stretch;
+  }
+
+  .mapa-rodape {
+    height: 180px;
+  }
 }

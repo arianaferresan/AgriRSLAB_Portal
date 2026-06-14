@@ -7,8 +7,10 @@
   <title data-i18n-key="jobsTitle">Vagas</title>
 
   <!-- Estilos -->
-  <link rel="stylesheet" href="style-vagas.css?v=5">
+  <link rel="stylesheet" href="/shared/css/variables.css">
+  <link rel="stylesheet" href="/shared/css/components.css">
   <link rel="stylesheet" href="../HeaderFooter/style.css">
+  <link rel="stylesheet" href="style-vagas.css?v=5">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +36,7 @@
         geoinformática e sensoriamento remoto para agricultura...
       </p>
 
-      <button class="btn-vagas btn-primary-vagas" onclick="scrollToSection()" data-i18n-key="viewApplicationsButton">Ver
+      <button class="btn-vagas btn-primary-vagas" type="button" onclick="scrollToSection()" data-i18n-key="viewApplicationsButton">Ver
         inscrições</button>
     </div>
   </section>
@@ -68,6 +70,7 @@
 
           <a class="btn-vagas btn-sm-vagas btn-primary-vagas"
             href="https://www.gov.br/inpe/pt-br/area-conhecimento/posgraduacao" target="_blank"
+            rel="noopener noreferrer"
             data-i18n-key="applicationsButton">
             Abrir página de inscrições e editais do PGSER
           </a>
@@ -155,7 +158,7 @@
 
         </div>
 
-        <div class="card-full-vagas" style="margin-top: 20px;">
+        <div class="card-full-vagas">
           <p data-i18n-key="howToApplyNote">Mais detalhes sobre linhas, seleção e contatos estão na página do PGSER do
             INPE.</p>
         </div>

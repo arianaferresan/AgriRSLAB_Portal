@@ -1,7 +1,7 @@
 <meta charset="UTF-8">
 <header>
     <div class="headerTop">
-        <a href="../pagina-inicial/index.html">
+        <a href="../pagina-inicial/index.html" aria-label="Ir para a página inicial">
             <img class="imageLogo" src="../assets/Imagens do laboratorio/logo.png" alt="Logo do site">
         </a>
         <h1 class="h1HEADER">AgriRSLab</h1>
@@ -9,7 +9,7 @@
         <div class="searchBar">
             <input id="search" class="inputSearch" type="search" placeholder="Pesquisar..."
                 data-i18n-placeholder="searchPlaceholder">
-            <button id="searchBtn" class="searchBtn">
+            <button id="searchBtn" class="searchBtn" type="button" aria-label="Pesquisar">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="20px"
                     fill="#5A5A5A">
                     <path
@@ -21,7 +21,7 @@
     </div>
 
     <div class="headerBottom">
-        <button class="hamburguer" id="hamburguer">
+        <button class="hamburguer" id="hamburguer" type="button" aria-label="Abrir menu" aria-controls="navHeader" aria-expanded="false">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
@@ -61,35 +61,14 @@
                         data-i18n-key="navContact">Fale Conosco</a>
                 </li>
             </ul>
-            <div class="language-selector" style="margin-left: 20px; display: flex; gap: 5px; align-items: center;">
-                <button onclick="mudarIdioma('pt')"
-                    style="cursor: pointer; border: 2px solid #c8e6c9; background: #e8f5e9; padding: 3px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.3s ease;">
-                    <img src="https://flagcdn.com/w40/br.png" alt="Português" title="Português"
-                        style="width: 32px; height: 20px; object-fit: cover; border-radius: 2px; display: block;"
-                        onmouseover="this.parentElement.style.transform='scale(1.1)'; this.parentElement.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';"
-                        onmouseout="this.parentElement.style.transform='scale(1)'; this.parentElement.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)';">
+            <div class="language-selector" role="group" aria-label="Selecionar idioma">
+                <button class="language-button" type="button" data-lang="pt" aria-label="Alterar idioma para português">
+                    <img src="https://flagcdn.com/w40/br.png" alt="Português" title="Português">
                 </button>
-                <button onclick="mudarIdioma('en')"
-                    style="cursor: pointer; border: 2px solid #c8e6c9; background: #e8f5e9; padding: 3px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.3s ease;">
-                    <img src="https://flagcdn.com/w40/us.png" alt="English" title="English"
-                        style="width: 32px; height: 20px; object-fit: cover; border-radius: 2px; display: block;"
-                        onmouseover="this.parentElement.style.transform='scale(1.1)'; this.parentElement.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';"
-                        onmouseout="this.parentElement.style.transform='scale(1)'; this.parentElement.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)';">
+                <button class="language-button" type="button" data-lang="en" aria-label="Change language to English">
+                    <img src="https://flagcdn.com/w40/us.png" alt="English" title="English">
                 </button>
             </div>
-            <script>
-                // Define o idioma padrão ou recupera do localStorage
-                if (!localStorage.getItem('selectedLanguage')) {
-                    localStorage.setItem('selectedLanguage', 'pt');
-                }
-
-                function mudarIdioma(lang) {
-                    localStorage.setItem('selectedLanguage', lang);
-                    // Dispara evento customizado para notificar outras partes da página
-                    window.dispatchEvent(new Event('languageChange'));
-                    window.location.reload(); // Recarrega a página para aplicar a tradução nos cards
-                }
-            </script>
         </nav>
     </div>
 </header>

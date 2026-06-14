@@ -6,8 +6,7 @@
     window.fetch = (resource, options = {}) => {
         const url = typeof resource === "string" ? resource : resource.url;
         const shouldAttachToken = token && url && (
-            url.startsWith("/api/") ||
-            url.startsWith("/api/")
+            url.includes("/api/")
         );
 
         if (!shouldAttachToken) {

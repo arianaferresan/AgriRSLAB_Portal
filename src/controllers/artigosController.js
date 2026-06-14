@@ -244,38 +244,56 @@ async function deletarArtigo(req, res) {
 
 
 // Rota para Download do PDF
-function downloadPdf(req, res) {
+async function downloadPdf(req, res) {
     const { id } = req.params;
 
-    // Neste exemplo, simplificaremos, mas em um cenário real, você buscaria o link_pdf no DB pelo ID
-    // e usaria res.download(caminho_completo_do_pdf);
+    try {
+        const result = await pool.query('SELECT link_pdf FROM artigos WHERE id = $1', [id]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ mensagem: 'Artigo não encontrado.' });
+        }
 
-    // Exemplo Simples (Ajuste para buscar no DB)
-    // O correto seria buscar o link_pdf no banco de dados primeiro!
-    // Para simplificar a demonstração da função:
-    res.status(501).json({ mensagem: "Funcionalidade de Download: Buscar 'link_pdf' no DB e usar 'res.download(caminho_completo)'." });
+        const link_pdf = result.rows[0].link_pdf;
 
-    // Exemplo de como DEVERIA SER (inclua o código abaixo no DELETE para funcionar):
-    /*
-    pool.query('SELECT link_pdf FROM artigos WHERE id = $1', [id])
-        .then(result => {
-            if (result.rows.length === 0) return res.status(404).json({ mensagem: 'Artigo não encontrado.' });
-            
-            const link_pdf = result.rows[0].link_pdf;
-            if (link_pdf.startsWith('/uploads/')) {
-                const fullPath = path.join(uploadDir, link_pdf.replace('/uploads/', ''));
-                if (fs.existsSync(fullPath)) {
-                    // res.download() envia o arquivo para download
-                    return res.download(fullPath, path.basename(fullPath)); 
-                }
+        if (!link_pdf || link_pdf.trim() === '') {
+            return res.status(404).json({ mensagem: 'Este artigo não possui um PDF associado.' });
+        }
+
+        // Se for um arquivo upado localmente
+        if (link_pdf.startsWith('/uploads/')) {
+            const fileName = link_pdf.replace('/uploads/', '');
+            const fullPath = path.resolve(uploadDir, fileName);
+
+            // Segurança: Prevenir Path Traversal (ex: ../../etc/passwd)
+            const resolvedUploadDir = path.resolve(uploadDir);
+            if (!fullPath.startsWith(resolvedUploadDir)) {
+                return res.status(403).json({ mensagem: 'Acesso negado ao arquivo.' });
             }
-            res.status(404).json({ mensagem: 'Arquivo PDF não encontrado no servidor.' });
-        })
-        .catch(error => {
-            console.error('Erro ao preparar download:', error.message);
-            res.status(500).json({ mensagem: 'Erro interno do servidor ao buscar PDF.' });
-        });
-    */
+
+            // Verifica existência do arquivo no disco
+            if (!fs.existsSync(fullPath)) {
+                return res.status(404).json({ mensagem: 'Arquivo PDF não encontrado no servidor.' });
+            }
+
+            // Realiza o download
+            return res.download(fullPath, path.basename(fullPath), (err) => {
+                if (err) {
+                    console.error('Erro durante o envio do arquivo PDF:', err);
+                    if (!res.headersSent) {
+                        res.status(500).json({ mensagem: 'Erro interno ao enviar o arquivo.' });
+                    }
+                }
+            });
+        } else {
+            // Se for um link externo, redireciona
+            return res.redirect(link_pdf);
+        }
+
+    } catch (error) {
+        console.error('Erro ao preparar download:', error.message);
+        res.status(500).json({ mensagem: 'Erro interno do servidor ao processar o download do PDF.' });
+    }
 }
 
 

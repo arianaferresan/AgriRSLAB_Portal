@@ -1,31 +1,66 @@
-const translations = {
-  pt: {
-    "hero.title":"O AgrIRS Lab é um laboratório vinculado a Divisão de Observação da Terra e Geoinformática (DIOTG) do Instituto Nacional de Pesquisas Espaciais (INPE).",
-    "hero.subtitle": "Somos um laboratório de sensoriamento remoto com foco na agricultura, estudando e monitorando cultivos agrícolas com o apoio de imagens de satélite e dados geoespaciais.Também desenvolvemos pesquisas em áreas ambientais e sociais, como detecção do desmatamento e mudanças no uso e cobertura da terra.Buscamos conectar tecnologia, ciência e responsabilidade socioambiental para gerar conhecimento e apoiar a tomada de decisões.",
-  },
-  en: {
-    "hero.title": "Welcome to our websiteThe AgrIRS Lab is a laboratory linked to the Earth Observation and Geoinformatics Division (DIOTG) of the National Institute for Space Research (INPE).",
-    "hero.subtitle": "We are a remote sensing laboratory focused on agriculture, studying and monitoring agricultural crops with the support of satellite imagery and geospatial data. We also conduct research in environmental and social areas, such as deforestation detection and changes in land use and land cover. We seek to connect technology, science, and socio-environmental responsibility to generate knowledge and support decision-making.Simple solutions for your business",
+(function () {
+  const DEFAULT_SOBRE = {
+    titulo: "Sobre o AgriRSLab",
+    subtitulo: "Sensoriamento remoto aplicado à agricultura e ao meio ambiente",
+    texto_principal:
+      "O AgriRSLab, vinculado ao Programa de Pós-Graduação em Sensoriamento Remoto do Instituto Nacional de Pesquisas Espaciais (INPE), dedica-se ao avanço do conhecimento científico e tecnológico na aplicação de sensoriamento remoto para a agricultura e o meio ambiente.",
+    missao:
+      "Desenvolver soluções inovadoras para o monitoramento agrícola, avaliação de impactos ambientais e gestão de recursos naturais.",
+    visao:
+      "Ser referência em pesquisa, desenvolvimento e formação em sensoriamento remoto aplicado à agricultura sustentável.",
+    valores:
+      "Ciência aplicada\nInovação responsável\nColaboração\nSustentabilidade\nTransparência",
+    url_imagem: "../assets/5. Parceiros/membros.png",
+  };
+
+  const elements = {
+    imagem: document.querySelector(".sobre-img img"),
+    titulo: document.getElementById("sobre-titulo"),
+    subtitulo: document.getElementById("sobre-subtitulo"),
+    texto: document.getElementById("sobre-texto"),
+    missao: document.getElementById("sobre-missao"),
+    visao: document.getElementById("sobre-visao"),
+    valores: document.getElementById("sobre-valores"),
+  };
+
+  function renderSobre(content) {
+    const data = { ...DEFAULT_SOBRE, ...content };
+
+    elements.imagem.src = data.url_imagem || DEFAULT_SOBRE.url_imagem;
+    elements.imagem.alt = data.titulo || "Imagem institucional do AgriRSLab";
+    elements.titulo.textContent = data.titulo;
+    elements.subtitulo.textContent = data.subtitulo;
+    elements.texto.textContent = data.texto_principal;
+    elements.missao.textContent = data.missao;
+    elements.visao.textContent = data.visao;
+
+    elements.valores.innerHTML = "";
+    String(data.valores || "")
+      .split("\n")
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        elements.valores.appendChild(li);
+      });
   }
-};
- 
-let currentLang = "pt";
- 
-function setLanguage(lang) {
-  currentLang = lang;
-  document.documentElement.lang = lang; // <html lang="pt">
-  document
-    .querySelectorAll("[data-i18n]")
-    .forEach(el => {
-      const key = el.getAttribute("data-i18n");
-      const text = translations[lang][key];
-      if (text) el.textContent = text;
-    });
-  localStorage.setItem("lang", lang);
-}
- 
-window.addEventListener("DOMContentLoaded", () => {
-  const saved = localStorage.getItem("lang");
-  setLanguage(saved || "pt");
-});
- 
+
+  async function carregarSobre() {
+    try {
+      const response = await fetch("/api/sobre/publico");
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.mensagem || "Erro ao carregar conteúdo Sobre.");
+      }
+
+      renderSobre(data);
+    } catch (error) {
+      console.error(error.message);
+      renderSobre(DEFAULT_SOBRE);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", carregarSobre);
+})();

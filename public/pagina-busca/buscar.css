@@ -77,3 +77,73 @@ main {
         padding: 12px 18px;
     }
 }
+
+/* ========================= SPRINT 7.3 - BUSCA ========================= */
+
+body {
+    background: var(--color-page-bg);
+}
+
+main {
+    max-width: var(--content-max-width);
+    padding: 24px 0 44px;
+}
+
+.conteudo-busca {
+    width: min(var(--content-max-width), calc(100% - 48px));
+    padding: 24px 0 0;
+}
+
+.conteudo-busca h2 {
+    color: var(--color-text-heading);
+    margin: 0 0 10px;
+}
+
+#info {
+    color: var(--color-text-muted);
+    margin: 0 0 20px;
+}
+
+#resultados {
+    gap: 24px;
+}
+
+.titulo-grupo {
+    color: var(--color-text-heading);
+    font-size: 1.1rem;
+    margin: 0 0 10px;
+}
+
+.lista-cards {
+    border-left: 1px solid var(--color-border-soft);
+    padding-left: 18px;
+    gap: 10px;
+}
+
+.resultado-card {
+    padding: 12px 0;
+    border-bottom-color: var(--color-border-soft);
+}
+
+.resultado-link {
+    color: var(--verde-escuro);
+}
+
+.resultado-link:hover {
+    color: var(--verde-escuro);
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 18px 0 36px;
+    }
+
+    .conteudo-busca {
+        width: min(100% - 32px, 760px);
+        padding-top: 18px;
+    }
+
+    #resultados {
+        gap: 18px;
+    }
+}

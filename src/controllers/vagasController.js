@@ -88,34 +88,23 @@ async function criarVaga(req, res) {
 // [R]EAD – Listar vagas para ADMIN (GET)
 async function listarVagas(req, res) {
     const query = `
-        SELECT *
-        FROM vagas
-        ORDER BY data_criacao DESC;
+        SELECT 
+            v.*,
+            COALESCE(
+                (SELECT json_agg(r.descricao) FROM requisitos_vaga r WHERE r.vaga_id = v.vaga_id),
+                '[]'::json
+            ) as requisitos,
+            COALESCE(
+                (SELECT json_agg(b.descricao) FROM beneficios_vaga b WHERE b.vaga_id = v.vaga_id),
+                '[]'::json
+            ) as beneficios
+        FROM vagas v
+        ORDER BY v.data_criacao DESC;
     `;
 
     try {
         const resultado = await pool.query(query);
-        const lista = [];
-
-        for (const v of resultado.rows) {
-            const reqs = await pool.query(
-                `SELECT descricao FROM requisitos_vaga WHERE vaga_id = $1`,
-                [v.vaga_id]
-            );
-
-            const bens = await pool.query(
-                `SELECT descricao FROM beneficios_vaga WHERE vaga_id = $1`,
-                [v.vaga_id]
-            );
-
-            lista.push({
-                ...v,
-                requisitos: reqs.rows.map(r => r.descricao),
-                beneficios: bens.rows.map(b => b.descricao)
-            });
-        }
-
-        res.status(200).json(lista);
+        res.status(200).json(resultado.rows);
 
     } catch (error) {
         console.error('Erro ao listar vagas:', error.message);
@@ -136,55 +125,47 @@ async function listarVagasPublicas(req, res) {
             COALESCE(ve.descricao, v.descricao) as descricao,
             v.link_candidatura,
             v.data_criacao,
-            v.exibir
+            v.exibir,
+            COALESCE(
+                (SELECT json_agg(COALESCE(re.descricao, r.descricao)) 
+                 FROM requisitos_vaga r 
+                 LEFT JOIN requisitos_vaga_en re ON r.req_id = re.req_id 
+                 WHERE r.vaga_id = v.vaga_id),
+                '[]'::json
+            ) as requisitos,
+            COALESCE(
+                (SELECT json_agg(COALESCE(be.descricao, b.descricao)) 
+                 FROM beneficios_vaga b 
+                 LEFT JOIN beneficios_vaga_en be ON b.benef_id = be.benef_id 
+                 WHERE b.vaga_id = v.vaga_id),
+                '[]'::json
+            ) as beneficios
         FROM vagas v
         LEFT JOIN vagas_en ve ON v.vaga_id = ve.vaga_id
         WHERE v.exibir = TRUE
         ORDER BY v.data_criacao DESC;`
         : `SELECT 
-            vaga_id,
-            titulo,
-            descricao,
-            link_candidatura,
-            data_criacao,
-            exibir
-        FROM vagas
-        WHERE exibir = TRUE
-        ORDER BY data_criacao DESC;`;
+            v.vaga_id,
+            v.titulo,
+            v.descricao,
+            v.link_candidatura,
+            v.data_criacao,
+            v.exibir,
+            COALESCE(
+                (SELECT json_agg(descricao) FROM requisitos_vaga r WHERE r.vaga_id = v.vaga_id),
+                '[]'::json
+            ) as requisitos,
+            COALESCE(
+                (SELECT json_agg(descricao) FROM beneficios_vaga b WHERE b.vaga_id = v.vaga_id),
+                '[]'::json
+            ) as beneficios
+        FROM vagas v
+        WHERE v.exibir = TRUE
+        ORDER BY v.data_criacao DESC;`;
 
     try {
         const resultado = await pool.query(query);
-        const lista = [];
-
-        for (const v of resultado.rows) {
-            // Busca requisitos com tradução
-            const reqsQuery = lang === 'en'
-                ? `SELECT COALESCE(re.descricao, r.descricao) as descricao 
-                   FROM requisitos_vaga r 
-                   LEFT JOIN requisitos_vaga_en re ON r.req_id = re.req_id 
-                   WHERE r.vaga_id = $1`
-                : `SELECT descricao FROM requisitos_vaga WHERE vaga_id = $1`;
-
-            const reqs = await pool.query(reqsQuery, [v.vaga_id]);
-
-            // Busca benefícios com tradução
-            const bensQuery = lang === 'en'
-                ? `SELECT COALESCE(be.descricao, b.descricao) as descricao 
-                   FROM beneficios_vaga b 
-                   LEFT JOIN beneficios_vaga_en be ON b.benef_id = be.benef_id 
-                   WHERE b.vaga_id = $1`
-                : `SELECT descricao FROM beneficios_vaga WHERE vaga_id = $1`;
-
-            const bens = await pool.query(bensQuery, [v.vaga_id]);
-
-            lista.push({
-                ...v,
-                requisitos: reqs.rows.map(r => r.descricao),
-                beneficios: bens.rows.map(b => b.descricao)
-            });
-        }
-
-        res.status(200).json(lista);
+        res.status(200).json(resultado.rows);
 
     } catch (error) {
         console.error('Erro ao listar vagas públicas:', error.message);

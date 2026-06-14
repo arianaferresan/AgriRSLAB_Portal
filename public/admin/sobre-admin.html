@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Sobre</title>
+
+    <link rel="stylesheet" href="/shared/css/variables.css">
+    <link rel="stylesheet" href="/shared/css/components.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="admin-header"></div>
+    <div id="admin-sidebar"></div>
+
+    <div class="main">
+        <div class="admin-membros-header">
+            <div class="admin-membros-texto">
+                <h2 class="titulo-secao">Administra&ccedil;&atilde;o da P&aacute;gina Sobre</h2>
+                <p class="admin-membros-descricao">
+                    Edite a estrutura institucional da p&aacute;gina Sobre. Esta tela est&aacute; preparada para integra&ccedil;&atilde;o
+                    com backend quando o endpoint estiver dispon&iacute;vel.
+                </p>
+            </div>
+
+            <a class="btn-secondary btnCadastro" href="/pagina-sobre/sobre.html" target="_blank"
+                rel="noopener noreferrer">
+                Visualizar p&aacute;gina p&uacute;blica Sobre
+            </a>
+        </div>
+
+        <div id="sobre-feedback" class="sobre-feedback" role="status" aria-live="polite"></div>
+
+        <div class="sobre-admin-grid">
+            <section class="sobre-admin-card" aria-labelledby="titulo-form-sobre">
+                <h3 id="titulo-form-sobre">Conte&uacute;do institucional</h3>
+
+                <form id="form-sobre-admin" novalidate>
+                    <label for="sobre-titulo">T&iacute;tulo *</label>
+                    <input type="text" id="sobre-titulo" name="titulo" required maxlength="120">
+
+                    <label for="sobre-subtitulo">Subt&iacute;tulo *</label>
+                    <input type="text" id="sobre-subtitulo" name="subtitulo" required maxlength="180">
+
+                    <label for="sobre-texto">Texto principal *</label>
+                    <textarea id="sobre-texto" name="texto" rows="7" required></textarea>
+
+                    <div class="sobre-admin-duas-colunas">
+                        <div>
+                            <label for="sobre-missao">Miss&atilde;o *</label>
+                            <textarea id="sobre-missao" name="missao" rows="4" required></textarea>
+                        </div>
+                        <div>
+                            <label for="sobre-visao">Vis&atilde;o *</label>
+                            <textarea id="sobre-visao" name="visao" rows="4" required></textarea>
+                        </div>
+                    </div>
+
+                    <label for="sobre-valores">Valores *</label>
+                    <textarea id="sobre-valores" name="valores" rows="5" required
+                        placeholder="Informe um valor por linha"></textarea>
+
+                    <label for="sobre-imagem-url">URL da imagem institucional</label>
+                    <input type="url" id="sobre-imagem-url" name="imagemUrl" placeholder="/assets/5. Parceiros/membros.png">
+
+                    <label for="sobre-imagem-arquivo">Imagem institucional</label>
+                    <input type="file" id="sobre-imagem-arquivo" name="imagemArquivo" accept="image/*">
+                    <p class="sobre-admin-ajuda">
+                        Se uma imagem for enviada, ela substitui a URL ao salvar. Sem arquivo, a URL informada ser&aacute;
+                        usada no conte&uacute;do p&uacute;blico.
+                    </p>
+
+                    <div class="sobre-admin-actions">
+                        <button type="submit" id="btn-salvar-sobre" class="btn-primary">
+                            Salvar altera&ccedil;&otilde;es
+                        </button>
+                        <button type="button" id="btn-cancelar-sobre" class="btn-secondary">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <aside class="sobre-admin-card sobre-admin-preview" aria-labelledby="titulo-preview-sobre">
+                <h3 id="titulo-preview-sobre">Pr&eacute;via simples</h3>
+                <img id="preview-sobre-imagem" src="/assets/5. Parceiros/membros.png" alt="Pr&eacute;via da imagem institucional">
+                <h4 id="preview-sobre-titulo"></h4>
+                <p id="preview-sobre-subtitulo" class="sobre-preview-subtitulo"></p>
+                <p id="preview-sobre-texto"></p>
+
+                <div class="sobre-preview-bloco">
+                    <strong>Miss&atilde;o</strong>
+                    <p id="preview-sobre-missao"></p>
+                </div>
+                <div class="sobre-preview-bloco">
+                    <strong>Vis&atilde;o</strong>
+                    <p id="preview-sobre-visao"></p>
+                </div>
+                <div class="sobre-preview-bloco">
+                    <strong>Valores</strong>
+                    <ul id="preview-sobre-valores"></ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <div id="admin-footer"></div>
+
+    <script src="/shared/js/utils.js"></script>
+    <script src="admin-ui.js"></script>
+    <script src="authGuard.js"></script>
+    <script src="sobre-admin.js"></script>
+</body>
+
+</html>

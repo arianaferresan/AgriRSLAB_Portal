@@ -14,8 +14,10 @@
     rel="stylesheet">
 
   <!-- CSS da página -->
-  <link rel="stylesheet" href="style-candidatura.css" />
+  <link rel="stylesheet" href="/shared/css/variables.css">
+  <link rel="stylesheet" href="/shared/css/components.css">
   <link rel="stylesheet" href="../HeaderFooter/style.css">
+  <link rel="stylesheet" href="style-candidatura.css" />
 </head>
 
 <body class="body-canditadura">
@@ -76,7 +78,7 @@
         <h2 id="titulo-form" class="section-title-canditadura" data-i18n="envie_candidatura">✉️ Envie sua Candidatura
         </h2>
 
-        <form class="form-canditadura" class="form-canditadura" action="#" method="post" novalidate>
+        <form class="form-canditadura" action="#" method="post" novalidate>
           <label class="label-canditadura">Nome*
             <input class="input-canditadura" type="text" name="nome" required>
           </label>
@@ -111,10 +113,10 @@
           <div class="form-actions-canditadura">
             <button type="submit" id="btn-candidatura-submit" class="btn-canditadura btn-primary-canditadura">
               <span data-i18n="btn_confirmar">Confirmar Candidatura</span>
-              <div class="spinner-faleconosco"></div>
+              <div class="spinner-faleconosco" aria-hidden="true"></div>
             </button>
           </div>
-          <div id="candidatura-message" class="form-message"></div>
+          <div id="candidatura-message" class="form-message" aria-live="polite"></div>
         </form>
       </section>
     </div>

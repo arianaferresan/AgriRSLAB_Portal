@@ -1,23 +1,11 @@
 :root{
-  --verde-1:#36794E;
-  --verde-2:#55A357;  
-  --marrom:#604639;
-  --azul1:#0F5289;
-  --azul2:#487DB4;
-  --azul-clarinho1:#DDF1FB;
-  --azul-clarinho2:#BCE2F7;
   --verde-claro:#d8f3dc;
-  --verde-borda:#cfe9d7;
-  --cinza-BACK:#f8f9fa;
-  --cinza-borda:#e6e6e6;
-  --cinza-escuro:#3a3a3a;
-  --texto:#333;
-  --verde-acao:#55A357;
+  --verde-acao:var(--color-secondary);
 }
 
 *{
   box-sizing:border-box;
-  font-family:"Montserrat",sans-serif;
+  font-family:var(--font-primary);
 }
 html,body{
   height:100%;
@@ -29,37 +17,37 @@ body{
   display:flex;
   flex-direction:column;
   min-height:100vh;
-  background:#F8F9FA;
+  background:var(--color-bg-light);
   color:var(--texto);
 }
 main{
   flex-grow:1;
-  padding:20px 50px 20px 20px;
+  padding:0;
 }
 
 /* ===== Container padrão candidatura ===== */
 .body-canditadura{
   margin:0;
-  background:#F8F9FA;
+  background:var(--color-bg-light);
   color:var(--texto);
   line-height:1.5;
 }
 .container-canditadura{
   width:100%;
   max-width:1120px;
-  margin:20px auto;
-  padding:0 60px;
+  margin:36px auto 56px;
+  padding:0 48px;
 }
 
 /*====================FONTES====================*/
 .montserrat {
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-primary);
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
 .merriweather{
-  font-family: "Merriweather", serif;
+  font-family: var(--font-secondary);
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -75,6 +63,7 @@ main{
   align-items:center;
   gap:8px;
   position:relative;
+  line-height:1.25;
 }
 .section-title-canditadura::after{
   content:"";
@@ -88,15 +77,28 @@ main{
 }
 
 .section-plain-canditadura{
-  background:transparent; border:0; box-shadow:none; padding:0; margin:0 0 22px
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  padding:0;
+  margin:0 0 28px;
 }
 .section-plain-canditadura .section-title-canditadura{ margin-top:6px }
 
-.card-canditadura{
-  background:#fff;
+.vacancy-canditadura{
+  background:var(--color-white);
   border:1px solid var(--cinza-borda);
-  border-radius:12px;
-  padding:10px 28px 28px;
+  border-radius:var(--border-radius-xl);
+  padding:24px 28px;
+  box-shadow:0 3px 6px rgba(0,0,0,.08);
+  line-height:1.62;
+}
+
+.card-canditadura{
+  background:var(--color-white);
+  border:1px solid var(--cinza-borda);
+  border-radius: var(--border-radius-xl);
+  padding:24px 28px 28px;
   box-shadow:0 3px 6px rgba(0,0,0,.08);
   margin-bottom:22px;
 }
@@ -118,12 +120,13 @@ main{
 .input-canditadura,
 .textarea-canditadura{
   width:100%;
-  background:#fff;
+  background:var(--color-white);
   border:1px solid var(--cinza-borda);
-  border-radius:10px;
+  border-radius: var(--border-radius-lg);
   padding:12px;
   font:inherit;
   outline:none;
+  transition:border-color .2s ease, box-shadow .2s ease;
 }
 .input-canditadura:focus,
 .textarea-canditadura:focus{
@@ -146,6 +149,7 @@ main{
   font-size: 14px;
   color: #666;
   font-style: italic;
+  overflow-wrap:anywhere;
 }
 
 .btn-secondary-canditadura {
@@ -155,7 +159,7 @@ main{
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 500;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   cursor: pointer;
   display: inline-block;
   transition: all 0.2s ease;
@@ -165,17 +169,22 @@ main{
   background: #e6e6e6;
   border-color: #d0d0d0;
 }
+.btn-secondary-canditadura:focus-visible,
+.btn-canditadura:focus-visible{
+  outline:3px solid var(--verde-claro);
+  outline-offset:3px;
+}
 
 .textarea-canditadura{ resize:vertical }
 
-.form-actions-canditadura{ display:flex; justify-content:flex-end; margin-top:6px }
+.form-actions-canditadura{ display:flex; justify-content:flex-end; margin-top:10px }
 
 .btn-canditadura{
   display:inline-flex;
   align-items:center;
   gap:10px;
   font-weight:600;
-  border-radius:8px;
+  border-radius: var(--border-radius-md);
   padding:12px 24px;
   border:1px solid transparent;
   cursor:pointer;
@@ -188,14 +197,14 @@ main{
   align-items: center;
 }
 .btn-primary-canditadura{
-  background:#55A357;
-  color:#fff;
-  box-shadow:0 4px 0 #36794E;
+  background:var(--color-secondary);
+  color:var(--color-white);
+  box-shadow:0 4px 0 var(--color-primary);
 }
-.btn-primary-canditadura:hover{ background:#4b924d }
+.btn-primary-canditadura:hover{ background:var(--color-primary-hover) }
 .btn-primary-canditadura:active{
   transform:translateY(3px);
-  box-shadow:0 1px 0 #36794E;
+  box-shadow:0 1px 0 var(--color-primary);
 }
 
 /* ==================== SPINNER DE CARREGAMENTO ==================== */
@@ -221,7 +230,7 @@ main{
 .btn-canditadura.loading {
     cursor: not-allowed;
     pointer-events: none; 
-    background: #4b924d;
+    background: var(--color-primary-hover);
     color: transparent !important; 
 }
 .btn-canditadura.loading span {
@@ -232,7 +241,7 @@ main{
 .form-message {
   margin-top: 20px;
   padding: 15px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   font-weight: 600;
   display: none; 
   text-align: center;
@@ -253,9 +262,10 @@ main{
 
 /* ====== Responsivo geral ====== */
 @media (max-width:1024px){
-  .container-canditadura{ padding:0 32px }
+  .container-canditadura{ padding:0 32px; margin-top:30px }
   .section-title-canditadura{ margin-bottom:26px }
-  .card-canditadura{ padding:10px 22px 22px }
+  .card-canditadura,
+  .vacancy-canditadura{ padding:22px }
 }
 
 @media (max-width:900px){
@@ -264,13 +274,146 @@ main{
 }
 
 @media (max-width:560px){
+  .container-canditadura{ padding:0 16px; margin:24px auto 40px }
   .body-canditadura{ font-size:15px }
   .section-title-canditadura{ font-size:1.05rem }
   .mini-title-canditadura{ font-size:13.5px }
-  .btn-canditadura{ font-size:13.5px }
+  .card-canditadura,
+  .vacancy-canditadura{ padding:18px }
+  .custom-file-input{ align-items:stretch }
+  .btn-secondary-canditadura,
+  .file-name-text{ width:100% }
   .btn-canditadura{ width:100%; justify-content:center }
+  .form-actions-canditadura{ justify-content:stretch }
 }
 
 @media (min-width:1200px){
-  main{ padding:30px 80px 30px 40px; }
+  main{ padding:0; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .input-canditadura,
+  .textarea-canditadura,
+  .btn-secondary-canditadura,
+  .btn-canditadura{
+    transition:none !important;
+  }
+}
+
+/* ========================= SPRINT 6 UI/UX ========================= */
+
+.card-canditadura,
+.vacancy-canditadura {
+  max-width: 100%;
+}
+
+.input-canditadura:focus-visible,
+.textarea-canditadura:focus-visible {
+  outline: none;
+}
+
+.form-message:not(:empty) {
+  display: block;
+}
+
+@media (max-width:1366px) and (min-width:769px){
+  .container-canditadura{
+    margin-top:32px;
+    margin-bottom:46px;
+  }
+}
+
+/* ========================= SPRINT 7.3 - VAGAS (CANDIDATURA) ========================= */
+
+body.body-canditadura {
+  background: var(--color-page-bg);
+}
+
+.container-canditadura {
+  width: min(var(--content-max-width), calc(100% - 48px));
+  padding: 0;
+}
+
+.section-title-canditadura,
+.section-plain-canditadura .section-title-canditadura {
+  color: var(--color-text-heading);
+}
+
+.vacancy-canditadura,
+.card-canditadura {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.mini-title-canditadura {
+  color: var(--color-text-heading);
+}
+
+.input-canditadura,
+.textarea-canditadura {
+  border-color: var(--color-border-soft);
+  border-radius: 8px;
+  box-shadow: var(--shadow-xs);
+}
+
+.input-canditadura:focus,
+.textarea-canditadura:focus {
+  border-color: rgba(85, 163, 87, 0.5);
+  box-shadow: 0 0 0 3px rgba(85, 163, 87, 0.14);
+}
+
+.btn-secondary-canditadura,
+.btn-canditadura {
+  border-radius: 8px;
+}
+
+.btn-secondary-canditadura {
+  background: var(--color-white);
+  color: var(--color-text-heading);
+  border-color: var(--color-border-soft);
+}
+
+.btn-secondary-canditadura:hover {
+  background: var(--color-page-bg);
+}
+
+.btn-primary-canditadura {
+  box-shadow: var(--shadow-xs);
+}
+
+.btn-primary-canditadura:hover {
+  background: var(--verde-escuro);
+}
+
+.form-message.success {
+  background-color: rgba(85, 163, 87, 0.12);
+  border-color: rgba(85, 163, 87, 0.24);
+  color: var(--verde-escuro);
+}
+
+.form-message.error {
+  background-color: rgba(168, 48, 48, 0.08);
+  border-color: rgba(168, 48, 48, 0.18);
+  color: #8e2a2a;
+}
+
+@media (max-width: 768px) {
+  .container-canditadura {
+    width: min(100% - 32px, 760px);
+  }
+
+  .vacancy-canditadura,
+  .card-canditadura {
+    padding: 18px;
+  }
+
+  .form-actions-canditadura {
+    justify-content: stretch;
+  }
+
+  .btn-canditadura {
+    width: 100%;
+  }
 }

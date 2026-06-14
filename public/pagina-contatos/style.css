@@ -1,19 +1,6 @@
-:root {
-  --azul-clarinho1: #DDF1FB;
-  --azul-clarinho2: #BCE2F7;
-  --verde-1: #36794E;
-  --verde-2: #55A357;
-  --marrom: #604639;
-  --azul1: #0F5289;
-  --azul2: #487DB4;
-  --cinza-BACK: #f8f9fa;
-  --cinza-borda: #e6e6e6;
-  --branco-card: #fff;
-}
-
 /* ==================== BASE ==================== */
 * {
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-primary);
   box-sizing: border-box;
 }
 
@@ -49,8 +36,8 @@ body {
 .form-contato {
   flex: 1 1 420px;
   padding: 25px 30px 35px;
-  background-color: #fff;
-  border-radius: 10px;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-lg);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -66,10 +53,10 @@ body {
   width: 100%;
   padding: 12px 14px;
   margin-bottom: 15px;
-  font: 400 16px/1.4 "Montserrat", sans-serif;
+  font: 400 16px/1.4 var(--font-primary);
   border: 1px solid var(--cinza-borda);
-  border-radius: 8px;
-  background-color: #fff;
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
   outline: none;
   transition: border-color 0.2s ease;
 }
@@ -87,9 +74,9 @@ textarea.caixas-contato {
   display: block;
   width: 100%;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   background: var(--verde-2);
-  color: #fff;
+  color: var(--color-white);
   font-weight: 600;
   font-size: 1rem;
   padding: 12px;
@@ -103,7 +90,7 @@ textarea.caixas-contato {
 }
 
 .btn-faleconosco:hover {
-  background: #4b924d;
+  background: var(--color-primary-hover);
 }
 
 .btn-faleconosco:active {
@@ -135,7 +122,7 @@ textarea.caixas-contato {
 .btn-faleconosco.loading {
     cursor: not-allowed;
     pointer-events: none; 
-    background: #4b924d; 
+    background: var(--color-primary-hover); 
     color: transparent; 
 }
 .btn-faleconosco.loading span {
@@ -145,7 +132,7 @@ textarea.caixas-contato {
 .form-message {
   margin-top: 20px;
   padding: 15px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   font-weight: 600;
   display: none; /* Inicia oculto */
   text-align: center;
@@ -185,14 +172,14 @@ textarea.caixas-contato {
 .endereco-contato {
   font-size: 18px;
   font-weight: 500;
-  color: #333;
+  color: var(--color-text-dark);
   line-height: 1.5;
   margin-bottom: 10px;
 }
 
 .mapa-estilizado {
   border: none;
-  border-radius: 10px;
+  border-radius: var(--border-radius-lg);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
   width: 100%;
   height: 260px;
@@ -263,7 +250,7 @@ textarea.caixas-contato {
 
   .form-contato {
     padding: 20px;
-    border-radius: 8px;
+    border-radius: var(--border-radius-md);
   }
 
   .h3-faleconosco,
@@ -289,5 +276,104 @@ textarea.caixas-contato {
   .contato-redes-sociais {
     height: 38px;
     width: 38px;
+  }
+}
+
+/* ========================= SPRINT 7.3 - CONTATOS ========================= */
+
+body {
+  background: var(--color-page-bg);
+}
+
+.area-contato {
+  padding: 28px 20px 44px;
+}
+
+.elementos-contato {
+  width: min(var(--content-max-width), calc(100% - 48px));
+  gap: 24px;
+}
+
+.form-contato,
+.mapa-contato {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-contato {
+  padding: 24px 26px 28px;
+}
+
+.h3-faleconosco,
+.h3-contato {
+  color: var(--color-text-heading);
+}
+
+.caixas-contato {
+  border-color: var(--color-border-soft);
+  border-radius: 8px;
+  box-shadow: var(--shadow-xs);
+}
+
+.caixas-contato:focus {
+  border-color: rgba(85, 163, 87, 0.5);
+  box-shadow: 0 0 0 3px rgba(85, 163, 87, 0.14);
+}
+
+.btn-faleconosco {
+  border-radius: 8px;
+  box-shadow: var(--shadow-xs);
+}
+
+.btn-faleconosco:hover {
+  background: var(--verde-escuro);
+}
+
+.form-message.success {
+  background-color: rgba(85, 163, 87, 0.12);
+  border-color: rgba(85, 163, 87, 0.24);
+  color: var(--verde-escuro);
+}
+
+.form-message.error {
+  background-color: rgba(168, 48, 48, 0.08);
+  border-color: rgba(168, 48, 48, 0.18);
+  color: #8e2a2a;
+}
+
+.mapa-contato {
+  padding: 20px;
+}
+
+.mapa-estilizado {
+  border: 1px solid var(--color-border-soft);
+  box-shadow: var(--shadow-sm);
+  border-radius: 8px;
+}
+
+.contato-redes-sociais {
+  transition: transform 0.15s ease;
+}
+
+.contato-redes-sociais:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1024px) {
+  .elementos-contato {
+    width: min(100% - 32px, 760px);
+  }
+}
+
+@media (max-width: 678px) {
+  .area-contato {
+    padding: 18px 10px 32px;
+  }
+
+  .form-contato,
+  .mapa-contato {
+    padding: 18px 16px;
   }
 }

@@ -1,0 +1,430 @@
+/* ============================================================================
+   COMPONENTS.CSS - Componentes Globais do Frontend
+   ============================================================================ */
+
+:root {
+  --component-btn-primary-bg: #007bff;
+  --component-btn-secondary-bg: #6c757d;
+  --component-btn-danger-bg: var(--color-danger);
+  --component-btn-radius: 15px;
+  --component-field-border: var(--color-text-light);
+  --component-field-radius: var(--border-radius-sm);
+  --component-card-bg: var(--color-white);
+  --component-card-border: var(--color-border);
+  --component-card-radius: var(--border-radius-lg);
+  --component-card-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  --component-modal-radius: 16px;
+  --component-feedback-success-bg: #e6f6e7;
+  --component-feedback-error-bg: #eceaea;
+}
+
+/* ================================
+   BOTÕES PADRÃO
+================================ */
+
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  border: none;
+  border-radius: var(--component-btn-radius);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: transform 0.06s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary {
+  background-color: var(--component-btn-primary-bg);
+  color: var(--color-white);
+}
+
+.btn-secondary {
+  background-color: var(--component-btn-secondary-bg);
+  color: var(--color-white);
+}
+
+.btn-danger {
+  background-color: var(--component-btn-danger-bg);
+  color: var(--color-white);
+}
+
+.card,
+.ui-card {
+  background: var(--component-card-bg);
+  border: 1px solid var(--component-card-border);
+  border-radius: var(--component-card-radius);
+  box-shadow: var(--component-card-shadow);
+}
+
+.btnCadastro {
+  margin: 5px 0 0 5px;
+}
+
+/* ================================
+   MODAIS (COMPARTILHADO)
+================================ */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-white);
+  border-radius: var(--component-modal-radius);
+  padding: 20px 24px;
+  width: min(800px, 95vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* labels e campos dentro dos modais */
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.urlUpload {
+  font-size: 13px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="url"],
+.modal-content input[type="number"],
+.modal-content input[type="email"],
+.modal-content input[type="password"],
+.modal-content input[type="date"],
+.modal-content input[type="file"],
+.modal-content select,
+.modal-content textarea,
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  border: 1px solid var(--component-field-border);
+  border-radius: var(--component-field-radius);
+}
+
+.modal-content button {
+  margin-top: 15px;
+}
+
+/* linhas em colunas nos formulários */
+.form-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.form-group-half {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* linha de fotos dos formulários de membros */
+.linha-fotos-form {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.campo-form {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* textareas dos modais */
+#form-cadastro textarea,
+#form-atualizacao textarea,
+.input-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 100px;
+  resize: vertical;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  border: 1px solid var(--component-field-border);
+  border-radius: var(--component-field-radius);
+}
+
+
+/* ================================
+   PREVIEW DE IMAGEM (Formulários)
+================================ */
+
+.image-preview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.image-preview-container img {
+  display: inline-block;
+}
+
+.image-preview-container img,
+#cadastro-img-preview,
+#edit-img-preview,
+#cadastro-foto-preview,
+#edit-foto-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-secondary);
+}
+
+
+/* ================================
+   TOAST (NOTIFICAÇÃO)
+================================ */
+
+#custom-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 25px;
+  border-radius: var(--border-radius-md);
+  color: var(--color-white);
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: #707070;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s, bottom 0.3s;
+}
+
+#custom-toast.show {
+  opacity: 1;
+  visibility: visible;
+  bottom: 30px;
+}
+
+.success {
+  background-color: var(--color-success);
+}
+
+.error {
+  background-color: var(--color-danger);
+}
+
+.form-message {
+  display: none;
+}
+
+.form-message:not(:empty) {
+  display: block;
+}
+
+.form-message.success {
+  background-color: var(--component-feedback-success-bg);
+  color: var(--color-secondary);
+  border: 1px solid var(--color-primary);
+}
+
+.form-message.error {
+  background-color: var(--component-feedback-error-bg);
+  color: var(--color-danger);
+  border: 1px solid var(--color-primary);
+}
+
+
+/* ================================
+   SWITCH EXIBIR / OCULTAR
+================================ */
+
+.form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-text-light);
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--color-white);
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+
+/* ================================
+   STATUS DE VISIBILIDADE
+================================ */
+
+.status-visible {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-oculto {
+  color: var(--color-danger);
+  font-weight: bold;
+}
+
+/* ================================
+   SPRINT 7.3 - POLIMENTO GLOBAL
+================================ */
+
+button,
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn,
+.btn-card {
+  border-radius: var(--border-radius-md);
+  letter-spacing: 0;
+  box-shadow: none;
+}
+
+.card,
+.ui-card {
+  border-color: var(--color-border-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover,
+.ui-card:hover,
+.btn-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+input,
+select,
+textarea,
+.input,
+.select,
+.textarea,
+.modal-content input[type="text"],
+.modal-content input[type="url"],
+.modal-content input[type="number"],
+.modal-content input[type="email"],
+.modal-content input[type="password"],
+.modal-content input[type="date"],
+.modal-content input[type="file"],
+.modal-content select,
+.modal-content textarea {
+  border-color: var(--color-border-soft);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.modal-content input:focus-visible,
+.modal-content select:focus-visible,
+.modal-content textarea:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.form-message,
+#custom-toast {
+  border-radius: var(--border-radius-md);
+}
+
+/* ================================ 
+   TIPOGRAFIA BASE
+================================ */
+
+body {
+  font-family: var(--font-primary);
+  line-height: 1.55;
+  letter-spacing: 0;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+p,
+li {
+  line-height: 1.6;
+}

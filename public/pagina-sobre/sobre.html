@@ -7,6 +7,8 @@
   <title data-i18n-key="navSobre"></title>
 
   <!-- Header/footer -->
+      <link rel="stylesheet" href="/shared/css/variables.css">
+    <link rel="stylesheet" href="/shared/css/components.css">
   <link rel="stylesheet" href="../HeaderFooter/style.css">
   <!-- CSS desta página -->
   <link rel="stylesheet" href="./sobre.css">
@@ -33,12 +35,17 @@
 
         <!-- caixa de cima (verde clara) -->
         <div class="sobre-card-top">
-          <p data-i18n="hero.title"></p>
+          <h1 id="sobre-titulo"></h1>
+          <p id="sobre-subtitulo"></p>
         </div>
 
         <!-- caixa de baixo (verde escura) -->
         <div class="sobre-card-bottom">
-          <p data-i18n="hero.subtitle"></p>
+          <p id="sobre-texto"></p>
+          <p><strong>Miss&atilde;o:</strong> <span id="sobre-missao"></span></p>
+          <p><strong>Vis&atilde;o:</strong> <span id="sobre-visao"></span></p>
+          <p><strong>Valores:</strong></p>
+          <ul id="sobre-valores"></ul>
         </div>
       </div>
     </section>
@@ -58,39 +65,7 @@
   <script src="/shared/js/utils.js"></script>
     <script src="../HeaderFooter/menu-header.js"></script>
   <script src="../traducao-titulo-guia.js"></script>
-  <script>
-    const translations = {
-      en: {
-        "hero.title": "The AgriRSLab, linked to the Postgraduate Program in Remote Sensing at the National Institute for Space Research (INPE), is dedicated to advancing scientific and technological knowledge in the application of remote sensing to agriculture and the environment.",
-        "hero.subtitle": "Our mission is to develop innovative solutions for monitoring agricultural crops, assessing environmental impacts, and managing natural resources, contributing to sustainable and efficient agriculture.",
-        "hero.colaboradores": "FUNDING AGENCIES AND COLLABORATORS"
-      },
-      pt: {
-        "hero.title": "O AgriRSLab, vinculado ao Programa de Pós-Graduação em Sensoriamento Remoto do Instituto Nacional de Pesquisas Espaciais (INPE), dedica-se ao avanço do conhecimento científico e tecnológico na aplicação de sensoriamento remoto para a agricultura e o meio ambiente.",
-        "hero.subtitle": "Nossa missão é desenvolver soluções inovadoras para o monitoramento de culturas agrícolas, avaliação de impactos ambientais e gestão de recursos naturais, contribuindo para uma agricultura sustentável e eficiente.",
-        "hero.colaboradores": "AGÊNCIAS DE FOMENTO E COLABORADORES"
-      }
-    };
-
-    function setLanguage(lang) {
-      document.querySelectorAll('[data-i18n]').forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
-          element.innerHTML = translations[lang][key];
-        }
-      });
-    }
-
-    function applyTranslation() {
-      const savedLanguage = localStorage.getItem('selectedLanguage') || 'pt';
-      setLanguage(savedLanguage);
-    }
-
-    // Aplica a tradução ao carregar a página
-    document.addEventListener('DOMContentLoaded', applyTranslation);
-    // Ouve por mudanças de idioma vindas do header
-    window.addEventListener('languageChange', applyTranslation);
-  </script>
+  <script src="./script.js"></script>
 </body>
 
 </html>
